@@ -18,3 +18,24 @@
 - display a table of set ups based on filtering
 ### Database - PostgreSQL
 - Tables for User, User Preferences, Watch Lists
+
+
+User and WatchList:
+
+A User can have many WatchLists.
+Each WatchList belongs to one User.
+The WatchList table has a foreign key user_id referencing the id in the User table.
+WatchList and WatchList_Stocks:
+
+A WatchList can contain many WatchList_Stocks.
+Each WatchList_Stock belongs to one WatchList.
+The WatchList_Stocks table has a foreign key watchlist_id referencing the id in the WatchList table.
+WatchList_Stocks and Stock_Alerts:
+
+A WatchList_Stock can have many Stock_Alerts.
+Each Stock_Alert belongs to one WatchList_Stock.
+The Stock_Alerts table has a foreign key watchlist_stock_id referencing the id in the WatchList_Stocks table.
+Stock_Alerts and Setup_Type:
+
+A Stock_Alert uses one Setup_Type.
+Each Stock_Alert has a foreign key setup_type_id referencing the id in the Setup_Type table.
