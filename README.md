@@ -20,27 +20,6 @@
 - Tables for User, User Preferences, Watch Lists
 
 
-User and WatchList:
-
-A User can have many WatchLists.
-Each WatchList belongs to one User.
-The WatchList table has a foreign key user_id referencing the id in the User table.
-WatchList and WatchList_Stocks:
-
-A WatchList can contain many WatchList_Stocks.
-Each WatchList_Stock belongs to one WatchList.
-The WatchList_Stocks table has a foreign key watchlist_id referencing the id in the WatchList table.
-WatchList_Stocks and Stock_Alerts:
-
-A WatchList_Stock can have many Stock_Alerts.
-Each Stock_Alert belongs to one WatchList_Stock.
-The Stock_Alerts table has a foreign key watchlist_stock_id referencing the id in the WatchList_Stocks table.
-Stock_Alerts and Setup_Type:
-
-A Stock_Alert uses one Setup_Type.
-Each Stock_Alert has a foreign key setup_type_id referencing the id in the Setup_Type table.
-
-
 
 # Users
 
@@ -67,6 +46,7 @@ Each Stock_Alert has a foreign key setup_type_id referencing the id in the Setup
  - name
  - user_id - `FK (users)`
 ### Controller `WatchlistController`
+#### getDefaultWatchlist `GET /default-watchlist`
 #### getWatchlists `GET /watchlists`
 
 #### getWatchlist `GET /watchlists/{id}`
@@ -74,21 +54,24 @@ Each Stock_Alert has a foreign key setup_type_id referencing the id in the Setup
 #### updateWatchlist `PUT /watchlists/{id}`
 #### deleteWatchlist `DELETE /watchlists/{id}`
 ### Service `WatchlistService`
+- `List<WatchlistStock> getDefaultWatchlistStocks()`
 - `List<Watchlists> getWatchlist()`
 - `Watchlists getWatchlist(Long id)`
 - `Watchlists createWatchList(Watchlists watchlist`
 - `Watchlists updateWatchlists(Long id, Watchlists watchlist)`
 - `void deleteWatchlist(Long id)`
 ---
-# Watchlist_stocks
+# Watchlist_stock
 
-### Entity `WatchlistStocks`
+### Entity `WatchlistStock`
 - id - PK
 - watchlist_id `FK (watchlist)`
-- aggregate_id `FK (aggregates)`
-### Controller `WatchlistStocksController`
-#### getStocks `GET /stocks`
+- stock_symbol
+### Controller `WatchlistStockController`
+#### getStocks `GET /stock` 
+*probable dont need*
 #### getStock `GET /stocks/{id}`
+*probably dont need*
 #### addStockToWatchlist `POST /stocks`
 #### removeStock `DELETE /stocks/{id}`
 ### Service `WatchlistStockService`
@@ -98,8 +81,9 @@ Each Stock_Alert has a foreign key setup_type_id referencing the id in the Setup
 - `void removeStock(Long id)`
 ---
 # Aggregates
-### Entity `Aggregates`
+## Entity `Aggregates`
 - id - PK
+- timeframe
 - stock_symbol
 - open
 - close
@@ -107,74 +91,133 @@ Each Stock_Alert has a foreign key setup_type_id referencing the id in the Setup
 - low
 - start_time
 - end_time
-- timeframe `FK (timeframes)`
-### Controller `AggregateController`
-#### Default view for non-registered users
+## Controller `AggregateController`
+### Default view for non-registered users
 - ##### getStockSymbols `GET /aggregates`
-### Service 
-#### `AggregateService`
+## Service 
+### AggregateService
 - `List<Aggregates> getStockSymbols()`
-- `List`
-#### `OneMinuteAggregationService
-#### `FiveMinuteAggregationService`
-#### `FifteenMinuteAggregationService`
-#### `ThirtyMinuteAggregationService`
-#### `SixtyMinuteAggregationService`
-#### `DailyAggregationService`
+- `double calculateTriggerPriceUp(List<Aggregates> recentAggregates)`
+- `double calculateTriggerPriceDown(List<Aggregates> recentAggregates)`
+- `double calculateTargetPriceUp(List<Aggregates> recentAggregates)`
+- `double calculateTargetPriceDown(List<Aggregates> recentAggregates)`
+- `double calculateHighPrice (List<Aggregates> aggregates)`
+- `double calculateLowPrice (List<Aggregates> aggregates)`
+- `void saveAggregates (List<Aggregates> aggregates)`
+### AggregationConversion `Abstract Class`
+- `protected abstract List<Aggregates> queryAggregates(String stockSymbol, TimeframeEnums timeframe)`
+- `protected abstract Aggregate convertToHigherTimeFrame(List<Aggregates> lowerTimeframe)`
+- `protected void saveAggregates(Aggregate higherTimeFrame)`
+- `public void execute(String stockSymbol, TimeframeEnums timeframe)`
+	- calls on `queryAggregates`, `converToHigherTimeframe` & `saveAggregates` within method block
+### AggregationServiceFactory
+- `AggregationConversion getService(TimeframeEnums timeframe)`
+	- use switch statement for timeframe enums
+### AggregationScheduler
+- *@Scheduled(cron = "0 */5 * * * MON-FRI", zone = "America/New_York")*
+	- `void runFiveMinuteAggregation()`
+		- `execute()`
+- *@Scheduled(cron = "0 */15 * * * MON-FRI", zone = "America/New_York")*
+	- `void runFifteenMinuteAggregation()`
+		- `execute()`
+- *@Scheduled(cron = "0 */30 * * * MON-FRI", zone = "America/New_York")*
+	- `void runThirtyMinuteAggregation()`
+		- `execute()`
+- *@Scheduled(cron = "0 0 * * * MON-FRI", zone = "America/New_York")*
+	- `void runSixtyMinuteAggregation()`
+		- `execute()`
+- *@Scheduled(cron = "0 0 16 * * MON-FRI", zone = "America/New_York")*
+	- `void runDailyAggregation()`
+		- `execute()`
+### FiveMinuteAggregationService *extends AggregationConversion*
+- *@Override* `Aggregate convertToHigherTimeFrame(List<Aggregates> lowerTimeframe)`
+- *Override* `List<Aggregates> queryAggregates(String stockSymbol, TimeframeEnums timeframe)`
+### FifteenMinuteAggregationService *extends AggregationConversion*
+- *@Override* `Aggregate convertToHigherTimeFrame(List<Aggregates> lowerTimeframe)`
+- *Override* `List<Aggregates> queryAggregates(String stockSymbol, TimeframeEnums timeframe)`
+### ThirtyMinuteAggregationService *extends AggregationConversion*
+- *@Override* `Aggregate convertToHigherTimeFrame(List<Aggregates> lowerTimeframe)`
+- *Override* `List<Aggregates> queryAggregates(String stockSymbol, TimeframeEnums timeframe)`
+### SixtyMinuteAggregationService *extends AggregationConversion*
+- *@Override* `Aggregate convertToHigherTimeFrame(List<Aggregates> lowerTimeframe)`
+- *Override* `List<Aggregates> queryAggregates(String stockSymbol, TimeframeEnums timeframe)`
+### DailyAggregationService *extends AggregationConversion*
+- *@Override* `Aggregate convertToHigherTimeFrame(List<Aggregates> lowerTimeframe)`
+- *Override* `List<Aggregates> queryAggregates(String stockSymbol, TimeframeEnums timeframe)`
+
 ---
-# Timeframe
-### Entity `Timeframes`
-- timeframe PK
-### Enums `TimeframeEnums`
+# Stock_alert
+### Entity `StockAlert`
+- id - PK
+- timeframe
+- alert_time
+- alert_status
+- alert_type
+- watclist_stock_id - `FK (watchlist_stocks)`
+### Controller `StockAlertController`
+#### getAlerts `GET /alerts`
+#### createAlert `POST /alerts`
+#### deleteAlert `DELETE /alerts/{id}`
+### Service `StockAlertService`
+- `List<StockAlert> getAllAlerts()`
+- `StockAlerts createAlert(StockAlerts alert)`
+- `void deleteAlerts(Long id)`
+---
+# Scenarios
+
+### Service `ScenarioService`
+- `ScenarioEnums determineScenarios(List<Aggregates> recentAggregates`
+- `boolean isInsiderBar(Aggregate first, Aggregate second, Aggregate third)`
+- `boolean isDirectionalBarUp(Aggregate first, Aggregate second, Aggregate third)`
+- `boolean isDirectionalBarDown(Aggregate first, Aggregate second, Aggregate third)`
+- `boolean isOutsideBar(Aggregate first, Aggregate second, Aggregate third)`
+
+---
+# Enums
+
+### `ScenarioEnums`
+- INSIDE_BAR
+- DIRECTIONAL_BAR_UP
+- DIRECTIONAL_BAR_DOWN
+- OUTSIDE_BAR
+### `TimeframeEnums`
 - 1_MIN
 - 5_MIN
 - 15_MIN
 - 30_MIN
 - 60_MIN
 - DAY
-### Controller `TimeframeController`
-#### getTimeframes `GET /`
-**Might not need this, figure out what i need for non registered user to query stocks by timeframes, will that go in here or in the aggregates? thinking the aggregates with query params**
-### Service 
-#### `TimeframeService`
+### `AlertStatusEnums`
+- ACTIVE
+- INACTIVE
+- TRIGGERED
+- CANCELLED
+### `AlertTypeEnums`
+- TRIGGER_UP
+- TRIGGER_DOWN
+- TARGET_UP
+- TARGET_DOWN
 
 ---
-# Stock_alerts
-### Entity `StockAlerts`
-- id - PK
-- alert_time
-- alert_status
-- watclist_stock_id - `FK (watchlist_stocks)`
-- scenario_id - `FK (scenarios)`
-### Enums `AlertStatus`
-- 
-### Controller `StockAlertController`
-#### createAlert `POST /alerts`
-#### deleteAlert `DELETE /alerts/{id}`
-### Service `StockAlertService`
-- `StockAlerts createAlert(StockAlerts alert)`
-- `void deleteAlerts(Long id)`
+# DTO
+### UserDTO
+### WatchlistDTO
+### WatchlistStockDTO
+
+
+
 ---
-# Scenarios
-### Entity `Scenarios`
-- scenario - PK
-### Enums `ScenarioEnums`
-- INSIDE_BAR
-- DIRECTIONAL_BAR_UP
-- DIRECTIONAL_BAR_DOWN
-- OUTSIDE_BAR
-### Controller `ScenarioController`
-### Service
-#### `InsideBarService`
-##### methods
-#### `DirectionalBarUpService`
-#### `DirectionalBarDownService`
-(the directional bar service will have similar logic, might be able to make a single class)
-#### `OutsideBarService`
----
-# Web Sockets/config
-- set up java server to act as a client to the web socket API
+# Websocket
+## Websocket Client
+## Websocket Config
+## WebsocketMessageHandler
+## WebSocketService
  ---
+# Utils
+### MarketHoursUtil
+#### public static boolean isMarketOpen()
+### mappingDTOUtil
+---
 # Notes
 
 ##### Processing 1 min aggregates into higher time frames
@@ -201,5 +244,12 @@ Each Stock_Alert has a foreign key setup_type_id referencing the id in the Setup
 		- *timeframe continuity in the future, using a historical data api*
 	- Timeframe buttons above the table to filter all stocks by selected timeframe
 	- 
+trigger price (entry price) target price
 
- 
+- **Whats Left**
+	- subscribe to websocket based on user watchlist
+	- DTOs
+	- mapping for DTOs
+	- change service layer return types to DTOs
+	- websocket endpoints for client
+	- scenarios get sent to client with websockets
