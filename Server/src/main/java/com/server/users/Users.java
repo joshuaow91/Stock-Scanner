@@ -22,7 +22,7 @@ public class Users {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany (mappedBy = "users")
+    @OneToMany (mappedBy = "user")
     private List<Watchlists> watchlists;
 
     public Long getId() {

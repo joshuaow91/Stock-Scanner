@@ -23,7 +23,7 @@ public class WatchlistStock {
     @Column(name = "stock_symbol")
     private StocksEnums stockSymbol;
 
-    @OneToMany (mappedBy = "watchlist_stock")
+    @OneToMany (mappedBy = "watchlistStock")
     private List<StockAlert> stockAlert;
 
     public long getId() {
