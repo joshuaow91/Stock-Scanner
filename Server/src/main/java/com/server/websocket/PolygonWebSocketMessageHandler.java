@@ -3,6 +3,7 @@ package com.server.websocket;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.server.aggregates.Aggregates;
 import com.server.aggregates.AggregatesRepository;
 import com.server.enums.StocksEnums;
@@ -32,6 +33,7 @@ public class PolygonWebSocketMessageHandler extends TextWebSocketHandler {
         this.aggregatesRepository = aggregatesRepository;
         this.apiKey = apiKey;
         this.objectMapper = new ObjectMapper();
+        this.objectMapper.registerModule(new JavaTimeModule());
     }
 
     @Override

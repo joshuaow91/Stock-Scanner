@@ -5,7 +5,7 @@ import com.server.enums.StocksEnums;
 import com.server.enums.TimeframeEnums;
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "aggregates")
@@ -29,10 +29,10 @@ public class Aggregates {
     private double low;
 
     @Column(name = "start_time")
-    private Date startTime;
+    private LocalDateTime startTime;
 
     @Column(name = "end_time")
-    private Date endTime;
+    private LocalDateTime endTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "scenario")
@@ -43,6 +43,20 @@ public class Aggregates {
 
     @Column(name = "target_price")
     private double targetPrice;
+
+    @Override
+    public String toString() {
+        return "Aggregates{" +
+                "high=" + high +
+                ", low=" + low +
+                ", open=" + open +
+                ", close=" + close +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", stockSymbol=" + stockSymbol +
+                ", timeframe=" + timeframe +
+                '}';
+    }
 
     public Long getId() {
         return id;
@@ -100,19 +114,19 @@ public class Aggregates {
         this.low = low;
     }
 
-    public Date getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 
