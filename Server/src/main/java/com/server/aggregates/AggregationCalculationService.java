@@ -23,6 +23,10 @@ public class AggregationCalculationService {
         double close = calculateClosePrice(lowerTimeframeAggregates);
         LocalDateTime startTime = calculateStartTime(lowerTimeframeAggregates);
         LocalDateTime endTime = calculateEndTime(lowerTimeframeAggregates);
+        double triggerUp = calculateTriggerPriceUp(lowerTimeframeAggregates);
+        double triggerDown = calculateTriggerPriceDown(lowerTimeframeAggregates);
+        double targetUp = calculateTargetPriceUp(lowerTimeframeAggregates);
+        double targetDown = calculateTargetPriceDown(lowerTimeframeAggregates);
 
         aggregated.setStockSymbol(lowerTimeframeAggregates.get(0).getStockSymbol());
         aggregated.setTimeframe(targetTimeframe);
@@ -32,6 +36,10 @@ public class AggregationCalculationService {
         aggregated.setClose(close);
         aggregated.setStartTime(startTime);
         aggregated.setEndTime(endTime);
+        aggregated.setTriggerPriceUp(triggerUp);
+        aggregated.setTriggerPriceDown(triggerDown);
+        aggregated.setTargetPriceUp(targetUp);
+        aggregated.setTargetPriceDown(targetDown);
 
         return aggregated;
     }
@@ -69,13 +77,45 @@ public class AggregationCalculationService {
         return aggregates.stream()
                 .map(Aggregates::getStartTime)
                 .min(LocalDateTime::compareTo)
-                .orElse(LocalDateTime.MIN); // Use a default value if necessary
+                .orElse(LocalDateTime.MIN);
     }
 
     private LocalDateTime calculateEndTime(List<Aggregates> aggregates) {
         return aggregates.stream()
                 .map(Aggregates::getEndTime)
                 .max(LocalDateTime::compareTo)
-                .orElse(LocalDateTime.MAX); // Use a default value if necessary
+                .orElse(LocalDateTime.MAX);
+    }
+
+    private double calculateTriggerPriceUp(List<Aggregates> aggregates) {
+        return aggregates.stream()
+                .max(Comparator.comparing(Aggregates::getEndTime))
+                .map(Aggregates::getHigh)
+                .orElse(Double.NaN);
+    }
+
+    private double calculateTriggerPriceDown(List<Aggregates> aggregates) {
+        return aggregates.stream()
+                .max(Comparator.comparing(Aggregates::getEndTime))
+                .map(Aggregates::getLow)
+                .orElse(Double.NaN);
+    }
+
+    private double calculateTargetPriceUp(List<Aggregates> aggregates) {
+        return aggregates.stream()
+                .sorted(Comparator.comparing(Aggregates::getEndTime).reversed())
+                .skip(1)
+                .findFirst()
+                .map(Aggregates::getHigh)
+                .orElse(Double.NaN);
+    }
+
+    private double calculateTargetPriceDown(List<Aggregates> aggregates) {
+        return aggregates.stream()
+                .sorted(Comparator.comparing(Aggregates::getEndTime).reversed())
+                .skip(1)
+                .findFirst()
+                .map(Aggregates::getLow)
+                .orElse(Double.NaN);
     }
 }

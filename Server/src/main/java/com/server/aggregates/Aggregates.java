@@ -38,11 +38,17 @@ public class Aggregates {
     @Column(name = "scenario")
     private ScenarioEnums scenario;
 
-    @Column(name = "trigger_price")
-    private double triggerPrice;
+    @Column(name = "trigger_price_up")
+    private double triggerPriceUp;
 
-    @Column(name = "target_price")
-    private double targetPrice;
+    @Column(name = "trigger_price_down")
+    private double triggerPriceDown;
+
+    @Column(name = "target_price_up")
+    private double targetPriceUp;
+
+    @Column(name = "target_price_down")
+    private double targetPriceDown;
 
     @Override
     public String toString() {
@@ -138,19 +144,35 @@ public class Aggregates {
         this.scenario = scenario;
     }
 
-    public double getTriggerPrice() {
-        return triggerPrice;
+    public double getTriggerPriceUp() {
+        return triggerPriceUp;
     }
 
-    public void setTriggerPrice(double triggerPrice) {
-        this.triggerPrice = triggerPrice;
+    public void setTriggerPriceUp(double triggerPriceUp) {
+        this.triggerPriceUp = triggerPriceUp;
     }
 
-    public double getTargetPrice() {
-        return targetPrice;
+    public double getTriggerPriceDown() {
+        return triggerPriceDown;
     }
 
-    public void setTargetPrice(double targetPrice) {
-        this.targetPrice = targetPrice;
+    public void setTriggerPriceDown(double triggerPriceDown) {
+        this.triggerPriceDown = triggerPriceDown;
+    }
+
+    public double getTargetPriceUp() {
+        return targetPriceUp;
+    }
+
+    public void setTargetPriceUp(double targetPriceUp) {
+        this.targetPriceUp = targetPriceUp;
+    }
+
+    public double getTargetPriceDown() {
+        return targetPriceDown;
+    }
+
+    public void setTargetPriceDown(double targetPriceDown) {
+        this.targetPriceDown = targetPriceDown;
     }
 }
