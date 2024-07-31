@@ -1,6 +1,5 @@
 package com.server.aggregates;
 
-import com.server.enums.StocksEnums;
 import com.server.enums.TimeframeEnums;
 
 import java.util.List;
@@ -13,7 +12,7 @@ public class DailyAggregatesServiceAbstractClass extends AggregationAbstractClas
 
     @Override
     protected List<Aggregates> queryAggregates(String stockSymbol, TimeframeEnums timeframe) {
-        return repository.findTop390ByStockSymbolAndTimeframeOrderByStartTimeDesc(StocksEnums.valueOf(stockSymbol), TimeframeEnums.ONE_MIN);
+        return repository.findTop390ByStockSymbolAndTimeframeOrderByStartTimeDesc(stockSymbol, String.valueOf(TimeframeEnums.ONE_MIN));
     }
 
 }
