@@ -1,5 +1,6 @@
 package com.server.aggregates;
 
+import com.server.enums.StocksEnums;
 import com.server.enums.TimeframeEnums;
 
 import java.util.List;
@@ -11,8 +12,8 @@ public class SixtyMinuteAggregatesServiceAbstractClass extends AggregationAbstra
     }
 
     @Override
-    protected List<Aggregates> queryAggregates(String stockSymbol, TimeframeEnums timeframe) {
-        return repository.findTop60ByStockSymbolAndTimeframeOrderByStartTimeDesc(stockSymbol, String.valueOf(timeframe));
+    protected List<Aggregates> queryAggregates(StocksEnums stockSymbol, TimeframeEnums timeframe) {
+        return repository.findTop60ByStockSymbolAndTimeframeOrderByStartTimeDesc(stockSymbol, timeframe);
     }
 
 }

@@ -23,7 +23,7 @@ public class AggregationScheduler {
     @Scheduled(cron = "0 */5 * * * MON-FRI", zone = "America/New_York")
     public void runFiveMinuteAggregation() {
         AggregationAbstractClass service = aggregationFactory.getService(TimeframeEnums.FIVE_MIN);
-        logger.info("Running aggregation for {}", service);
+        logger.info("Running aggregation for 5 minutes");
         service.execute(String.valueOf(StocksEnums.AAPL), TimeframeEnums.ONE_MIN, TimeframeEnums.FIVE_MIN);
 
     }
@@ -31,7 +31,7 @@ public class AggregationScheduler {
     @Scheduled(cron = "0 */15 * * * MON-FRI", zone = "America/New_York")
     public void runFifteenMinuteAggregation() {
         AggregationAbstractClass service = aggregationFactory.getService(TimeframeEnums.FIFTEEN_MIN);
-        logger.info("Running aggregation for {}", service);
+        logger.info("Running aggregation for 15 minutes");
         service.execute(String.valueOf(StocksEnums.AAPL), TimeframeEnums.ONE_MIN, TimeframeEnums.FIFTEEN_MIN);
 
     }
@@ -39,7 +39,7 @@ public class AggregationScheduler {
     @Scheduled(cron = "0 */30 * * * MON-FRI", zone = "America/New_York")
     public void runThirtyMinuteAggregation() {
         AggregationAbstractClass service = aggregationFactory.getService(TimeframeEnums.THIRTY_MIN);
-        logger.info("Running aggregation for {}", service);
+        logger.info("Running aggregation for 30 minutes");
         service.execute(String.valueOf(StocksEnums.AAPL), TimeframeEnums.ONE_MIN, TimeframeEnums.THIRTY_MIN);
 
     }
@@ -47,7 +47,7 @@ public class AggregationScheduler {
     @Scheduled(cron = "0 0 * * * MON-FRI", zone = "America/New_York")
     public void runSixtyMinuteAggregation() {
         AggregationAbstractClass service = aggregationFactory.getService(TimeframeEnums.SIXTY_MIN);
-        logger.info("Running aggregation for {}", service);
+        logger.info("Running aggregation for 60 minutes");
         service.execute(String.valueOf(StocksEnums.AAPL), TimeframeEnums.ONE_MIN, TimeframeEnums.SIXTY_MIN);
 
     }
@@ -55,7 +55,7 @@ public class AggregationScheduler {
     @Scheduled(cron = "0 0 16 * * MON-FRI", zone = "America/New_York")
     public void runDailyAggregation() {
         AggregationAbstractClass service = aggregationFactory.getService(TimeframeEnums.DAY);
-        logger.info("Running aggregation for {}", service);
+        logger.info("Running aggregation for Daily");
         service.execute(String.valueOf(StocksEnums.AAPL), TimeframeEnums.ONE_MIN, TimeframeEnums.DAY);
 
     }
