@@ -1,6 +1,5 @@
 package com.server.aggregates;
 
-import com.server.enums.StocksEnums;
 import com.server.enums.TimeframeEnums;
 import com.server.watchliststock.WatchlistStockService;
 import org.slf4j.Logger;

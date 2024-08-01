@@ -1,9 +1,7 @@
 package com.server.watchliststock;
 
 import com.server.enums.StocksEnums;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +18,11 @@ public class WatchlistStockController {
     @GetMapping
     public List<StocksEnums> getDefaultStocks() {
         return watchlistStockService.getDefaultStocks();
+    }
+
+    @PostMapping
+    public StocksEnums addStockToWatchList(@RequestParam Long watchlistId,
+                                           @RequestParam StocksEnums stock) {
+        return watchlistStockService.addStockToWatchlist(watchlistId, stock);
     }
 }

@@ -17,4 +17,8 @@ public class WatchlistStockService {
     public List<StocksEnums> getDefaultStocks() {
         return watchlistStockRepository.getDefaultStocksByWatchlistId(1);
     }
+
+    public StocksEnums addStockToWatchlist(Long watchlistId, StocksEnums stock) {
+        return watchlistStockRepository.saveStockToWatchlist(watchlistId,stock);
+    }
 }

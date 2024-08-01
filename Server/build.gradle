@@ -29,6 +29,8 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:5.12.0'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+
 }
 
 tasks.named('test') {
