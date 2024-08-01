@@ -12,7 +12,7 @@ public class SixtyMinuteAggregatesServiceAbstractClass extends AggregationAbstra
     }
 
     @Override
-    protected List<Aggregates> queryAggregates(StocksEnums stockSymbol, TimeframeEnums timeframe) {
+    protected List<Aggregates> queryAggregates(List<StocksEnums> stockSymbol, TimeframeEnums timeframe) {
         return repository.findTop60ByStockSymbolAndTimeframeOrderByStartTimeDesc(stockSymbol, timeframe);
     }
 

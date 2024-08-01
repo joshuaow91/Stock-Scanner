@@ -12,7 +12,7 @@ public class DailyAggregatesServiceAbstractClass extends AggregationAbstractClas
     }
 
     @Override
-    protected List<Aggregates> queryAggregates(StocksEnums stockSymbol, TimeframeEnums timeframe) {
+    protected List<Aggregates> queryAggregates(List<StocksEnums> stockSymbol, TimeframeEnums timeframe) {
         return repository.findTop390ByStockSymbolAndTimeframeOrderByStartTimeDesc(stockSymbol, TimeframeEnums.ONE_MIN);
     }
 

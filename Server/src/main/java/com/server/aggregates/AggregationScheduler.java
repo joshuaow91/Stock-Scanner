@@ -2,6 +2,7 @@ package com.server.aggregates;
 
 import com.server.enums.StocksEnums;
 import com.server.enums.TimeframeEnums;
+import com.server.watchliststock.WatchlistStockService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -18,9 +19,11 @@ public class AggregationScheduler {
     private static final Logger logger = LoggerFactory.getLogger(AggregationScheduler.class);
 
     private final AggregationFactory aggregationFactory;
+    private final WatchlistStockService watchlistStockService;
 
-    public AggregationScheduler(AggregationFactory aggregationFactory) {
+    public AggregationScheduler(AggregationFactory aggregationFactory, WatchlistStockService watchlistStockService) {
         this.aggregationFactory = aggregationFactory;
+        this.watchlistStockService = watchlistStockService;
     }
 
     @Scheduled(cron = "0 */5 * * * MON-FRI", zone = "America/New_York")
@@ -28,7 +31,7 @@ public class AggregationScheduler {
         if (isMarketOpen(0)) {
             AggregationAbstractClass service = aggregationFactory.getService(TimeframeEnums.FIVE_MIN);
             logger.info("Running aggregation for 5 minutes");
-            service.execute(StocksEnums.AAPL, TimeframeEnums.ONE_MIN, TimeframeEnums.FIVE_MIN);
+            service.execute(watchlistStockService.getDefaultStocks(), TimeframeEnums.ONE_MIN, TimeframeEnums.FIVE_MIN);
         }
     }
 
@@ -37,7 +40,7 @@ public class AggregationScheduler {
         if (isMarketOpen(0)) {
             AggregationAbstractClass service = aggregationFactory.getService(TimeframeEnums.FIFTEEN_MIN);
             logger.info("Running aggregation for 15 minutes");
-            service.execute(StocksEnums.AAPL, TimeframeEnums.ONE_MIN, TimeframeEnums.FIFTEEN_MIN);
+            service.execute(watchlistStockService.getDefaultStocks(), TimeframeEnums.ONE_MIN, TimeframeEnums.FIFTEEN_MIN);
         }
     }
 
@@ -46,7 +49,7 @@ public class AggregationScheduler {
         if (isMarketOpen(30)) {
             AggregationAbstractClass service = aggregationFactory.getService(TimeframeEnums.THIRTY_MIN);
             logger.info("Running aggregation for 30 minutes");
-            service.execute(StocksEnums.AAPL, TimeframeEnums.ONE_MIN, TimeframeEnums.THIRTY_MIN);
+            service.execute(watchlistStockService.getDefaultStocks(), TimeframeEnums.ONE_MIN, TimeframeEnums.THIRTY_MIN);
         }
     }
 
@@ -55,7 +58,7 @@ public class AggregationScheduler {
         if (isMarketOpen(60)) {
             AggregationAbstractClass service = aggregationFactory.getService(TimeframeEnums.SIXTY_MIN);
             logger.info("Running aggregation for 60 minutes");
-            service.execute(StocksEnums.AAPL, TimeframeEnums.ONE_MIN, TimeframeEnums.SIXTY_MIN);
+            service.execute(watchlistStockService.getDefaultStocks(), TimeframeEnums.ONE_MIN, TimeframeEnums.SIXTY_MIN);
         }
     }
 
@@ -63,7 +66,7 @@ public class AggregationScheduler {
     public void runDailyAggregation() {
         AggregationAbstractClass service = aggregationFactory.getService(TimeframeEnums.DAY);
         logger.info("Running aggregation for Daily");
-        service.execute(StocksEnums.AAPL, TimeframeEnums.ONE_MIN, TimeframeEnums.DAY);
+        service.execute(watchlistStockService.getDefaultStocks(), TimeframeEnums.ONE_MIN, TimeframeEnums.DAY);
     }
 
     private boolean isMarketOpen(int minutesToRunTaskAfterOpen) {

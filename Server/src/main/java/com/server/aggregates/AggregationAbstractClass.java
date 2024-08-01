@@ -19,7 +19,7 @@ public abstract class AggregationAbstractClass {
         this.aggregationCalculationService = aggregationCalculationService;
     }
 
-    protected abstract List<Aggregates> queryAggregates(StocksEnums stockSymbol, TimeframeEnums timeframe);
+    protected abstract List<Aggregates> queryAggregates(List<StocksEnums> stockSymbol, TimeframeEnums timeframe);
 
     protected Aggregates convertToHigherTimeframe(List<Aggregates> lowerTimeframe, TimeframeEnums targetTimeframe) {
         return aggregationCalculationService.processAggregateCalculations(lowerTimeframe, targetTimeframe);
@@ -29,7 +29,7 @@ public abstract class AggregationAbstractClass {
         repository.save(higherTimeframe);
     }
 
-    public void execute(StocksEnums stockSymbol, TimeframeEnums timeframe, TimeframeEnums targetTimeframe) {
+    public void execute(List<StocksEnums> stockSymbol, TimeframeEnums timeframe, TimeframeEnums targetTimeframe) {
         List<Aggregates> lowerTimeframe = queryAggregates(stockSymbol, timeframe);
         Aggregates higherTimeframe = convertToHigherTimeframe(lowerTimeframe, targetTimeframe);
         logger.info("Converted to higher timeframe: {}", higherTimeframe);

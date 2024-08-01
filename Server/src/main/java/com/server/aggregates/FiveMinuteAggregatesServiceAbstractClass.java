@@ -12,7 +12,7 @@ public class FiveMinuteAggregatesServiceAbstractClass extends AggregationAbstrac
     }
 
     @Override
-    protected List<Aggregates> queryAggregates(StocksEnums stockSymbol, TimeframeEnums timeframe) {
+    protected List<Aggregates> queryAggregates(List<StocksEnums> stockSymbol, TimeframeEnums timeframe) {
         return repository.findTop5ByStockSymbolAndTimeframeOrderByStartTimeDesc(stockSymbol, TimeframeEnums.ONE_MIN);
     }
 
