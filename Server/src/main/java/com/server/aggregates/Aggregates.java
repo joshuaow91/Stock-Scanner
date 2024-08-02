@@ -5,7 +5,7 @@ import com.server.enums.StocksEnums;
 import com.server.enums.TimeframeEnums;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "aggregates")
@@ -29,10 +29,10 @@ public class Aggregates {
     private double low;
 
     @Column(name = "start_time")
-    private LocalDateTime startTime;
+    private ZonedDateTime startTime;
 
     @Column(name = "end_time")
-    private LocalDateTime endTime;
+    private ZonedDateTime endTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "scenario")
@@ -120,19 +120,19 @@ public class Aggregates {
         this.low = low;
     }
 
-    public LocalDateTime getStartTime() {
+    public ZonedDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(ZonedDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public ZonedDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(ZonedDateTime endTime) {
         this.endTime = endTime;
     }
 

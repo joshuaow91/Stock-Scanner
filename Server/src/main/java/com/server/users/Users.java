@@ -1,13 +1,18 @@
 package com.server.users;
 
+import com.server.authentication.Token;
 import com.server.watchlists.Watchlists;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class Users {
+public class Users implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +29,14 @@ public class Users {
 
     @OneToMany (mappedBy = "user")
     private List<Watchlists> watchlists;
+
+    @OneToMany (mappedBy = "user")
+    private List<Token> token;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -55,5 +68,21 @@ public class Users {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Watchlists> getWatchlists() {
+        return watchlists;
+    }
+
+    public void setWatchlists(List<Watchlists> watchlists) {
+        this.watchlists = watchlists;
+    }
+
+    public List<Token> getToken() {
+        return token;
+    }
+
+    public void setToken(List<Token> token) {
+        this.token = token;
     }
 }

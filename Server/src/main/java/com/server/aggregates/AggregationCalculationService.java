@@ -3,7 +3,7 @@ package com.server.aggregates;
 import com.server.enums.TimeframeEnums;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -21,8 +21,8 @@ public class AggregationCalculationService {
         double low = calculateLowPrice(lowerTimeframeAggregates);
         double open = calculateOpenPrice(lowerTimeframeAggregates);
         double close = calculateClosePrice(lowerTimeframeAggregates);
-        LocalDateTime startTime = calculateStartTime(lowerTimeframeAggregates);
-        LocalDateTime endTime = calculateEndTime(lowerTimeframeAggregates);
+        ZonedDateTime startTime = calculateStartTime(lowerTimeframeAggregates);
+        ZonedDateTime endTime = calculateEndTime(lowerTimeframeAggregates);
         double triggerUp = calculateTriggerPriceUp(lowerTimeframeAggregates);
         double triggerDown = calculateTriggerPriceDown(lowerTimeframeAggregates);
         double targetUp = calculateTargetPriceUp(lowerTimeframeAggregates);
@@ -73,18 +73,18 @@ public class AggregationCalculationService {
                 .orElse(Double.NaN);
     }
 
-    private LocalDateTime calculateStartTime(List<Aggregates> aggregates) {
+    private ZonedDateTime calculateStartTime(List<Aggregates> aggregates) {
         return aggregates.stream()
                 .map(Aggregates::getStartTime)
-                .min(LocalDateTime::compareTo)
-                .orElse(LocalDateTime.MIN);
+                .min(ZonedDateTime::compareTo)
+                .orElse(ZonedDateTime.now());
     }
 
-    private LocalDateTime calculateEndTime(List<Aggregates> aggregates) {
+    private ZonedDateTime calculateEndTime(List<Aggregates> aggregates) {
         return aggregates.stream()
                 .map(Aggregates::getEndTime)
-                .max(LocalDateTime::compareTo)
-                .orElse(LocalDateTime.MAX);
+                .max(ZonedDateTime::compareTo)
+                .orElse(ZonedDateTime.now());
     }
 
     private double calculateTriggerPriceUp(List<Aggregates> aggregates) {

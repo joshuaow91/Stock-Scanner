@@ -7,6 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,15 +32,15 @@ public class AggregationCalculationTest {
         agg1.setLow(100.32);
         agg1.setOpen(99.00);
         agg1.setClose(99.80);
-        agg1.setStartTime(LocalDateTime.of(2024, 7, 29, 9, 30));
-        agg1.setEndTime(LocalDateTime.of(2024, 7, 29, 9, 31));
+        agg1.setStartTime(ZonedDateTime.of(2024, 7, 29, 9, 30, 0, 0, ZoneId.of("America/New_York")));
+        agg1.setEndTime(ZonedDateTime.of(2024, 7, 29, 9, 31, 0, 0, ZoneId.of("America/New_York")));
         Aggregates agg2 = new Aggregates();
         agg2.setHigh(192.20);
         agg2.setLow(110.32);
         agg2.setOpen(119.00);
         agg2.setClose(119.80);
-        agg2.setStartTime(LocalDateTime.of(2024, 7, 29, 9, 31));
-        agg2.setEndTime(LocalDateTime.of(2024, 7, 29, 9, 32));
+        agg2.setStartTime(ZonedDateTime.of(2024, 7, 29, 9, 31, 0, 0, ZoneId.of("America/New_York")));
+        agg2.setEndTime(ZonedDateTime.of(2024, 7, 29, 9, 32, 0, 0, ZoneId.of("America/New_York")));
         aggregatesList.add(agg1);
         aggregatesList.add(agg2);
 
@@ -47,8 +49,8 @@ public class AggregationCalculationTest {
         assertEquals(100.32, result.getLow());
         assertEquals(99.00, result.getOpen());
         assertEquals(119.80, result.getClose());
-        assertEquals(LocalDateTime.of(2024, 7, 29, 9, 30), result.getStartTime());
-        assertEquals(LocalDateTime.of(2024, 7, 29, 9, 32), result.getEndTime());
+        assertEquals(ZonedDateTime.of(2024, 7, 29, 9, 30, 0, 0, ZoneId.of("America/New_York")), result.getStartTime());
+        assertEquals(ZonedDateTime.of(2024, 7, 29, 9, 32, 0, 0, ZoneId.of("America/New_York")), result.getEndTime());
         assertEquals(192.20, result.getTriggerPriceUp());
         assertEquals(110.32, result.getTriggerPriceDown());
         assertEquals(198.20, result.getTargetPriceUp());

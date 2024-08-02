@@ -1,8 +1,9 @@
 package com.server.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AggregatesDTO {
@@ -11,8 +12,12 @@ public class AggregatesDTO {
     private double c;
     private double h;
     private double l;
-    private LocalDateTime s;
-    private LocalDateTime e;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    private ZonedDateTime s;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    private ZonedDateTime e;
 
     public String getSym() {
         return sym;
@@ -34,11 +39,11 @@ public class AggregatesDTO {
         return l;
     }
 
-    public LocalDateTime getS() {
+    public ZonedDateTime getS() {
         return s;
     }
 
-    public LocalDateTime getE() {
+    public ZonedDateTime getE() {
         return e;
     }
 
