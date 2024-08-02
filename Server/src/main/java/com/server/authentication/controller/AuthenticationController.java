@@ -1,11 +1,11 @@
 package com.server.authentication.controller;
 
-import com.server.authentication.service.AuthenticationService;
+import com.server.authentication.service.LoginService;
 import com.server.authentication.service.LogoutService;
 import com.server.authentication.service.RegistrationService;
-import com.server.dto.AuthenticationRequestDTO;
-import com.server.dto.AuthenticationResponseDTO;
-import com.server.dto.RegisterRequestDTO;
+import com.server.authentication.dto.AuthenticationRequestDTO;
+import com.server.authentication.dto.AuthenticationResponseDTO;
+import com.server.authentication.dto.RegisterRequestDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +17,12 @@ import java.io.IOException;
 @RequestMapping("/user")
 public class AuthenticationController {
 
-    private final AuthenticationService service;
+    private final LoginService service;
     private final RegistrationService registrationService;
     private final LogoutService logoutService;
 
     @Autowired
-    public AuthenticationController(AuthenticationService service, RegistrationService registrationService, LogoutService logoutService) {
+    public AuthenticationController(LoginService service, RegistrationService registrationService, LogoutService logoutService) {
         this.service = service;
         this.registrationService = registrationService;
         this.logoutService = logoutService;

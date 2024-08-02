@@ -1,7 +1,7 @@
 package com.server.authentication.service;
 
 
-import com.server.authentication.TokenRepository;
+import com.server.authentication.repository.TokenRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,10 +1,9 @@
 package com.server.authentication.service;
 
-import com.server.authentication.TokenService;
-import com.server.dto.AuthenticationResponseDTO;
-import com.server.dto.RegisterRequestDTO;
-import com.server.users.UserRepository;
-import com.server.users.Users;
+import com.server.authentication.dto.AuthenticationResponseDTO;
+import com.server.authentication.dto.RegisterRequestDTO;
+import com.server.users.repository.UserRepository;
+import com.server.users.entity.Users;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

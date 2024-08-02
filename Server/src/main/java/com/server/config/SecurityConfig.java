@@ -1,6 +1,6 @@
 package com.server.config;
 
-import com.server.authentication.JwtAuthenticationFilter;
+import com.server.authentication.service.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
