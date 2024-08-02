@@ -7,6 +7,7 @@ import com.server.enums.TimeframeEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.List;
 
 public abstract class AggregationAbstractClass {
@@ -31,10 +32,12 @@ public abstract class AggregationAbstractClass {
         repository.save(higherTimeframe);
     }
 
-    public void execute(List<StocksEnums> stockSymbol, TimeframeEnums timeframe, TimeframeEnums targetTimeframe) {
-        List<Aggregates> lowerTimeframe = queryAggregates(stockSymbol, timeframe);
-        Aggregates higherTimeframe = convertToHigherTimeframe(lowerTimeframe, targetTimeframe);
-        logger.info("Converted to higher timeframe: {}", higherTimeframe);
-        saveAggregates(higherTimeframe);
+    public void execute(List<StocksEnums> stockSymbols, TimeframeEnums timeframe, TimeframeEnums targetTimeframe) {
+        for (StocksEnums stockSymbol : stockSymbols) {
+            List<Aggregates> lowerTimeframe = queryAggregates(Collections.singletonList(stockSymbol), timeframe);
+            Aggregates higherTimeframe = convertToHigherTimeframe(lowerTimeframe, targetTimeframe);
+            logger.info("Converted to higher timeframe: {} {}",targetTimeframe, higherTimeframe);
+            saveAggregates(higherTimeframe);
+        }
     }
 }

@@ -15,7 +15,7 @@ public class SixtyMinuteAggregatesService extends AggregationAbstractClass {
 
     @Override
     protected List<Aggregates> queryAggregates(List<StocksEnums> stockSymbol, TimeframeEnums timeframe) {
-        return repository.findTop60ByStockSymbolAndTimeframeOrderByStartTimeDesc(stockSymbol, timeframe);
+        List<String> stockSymbols = stockSymbol.stream().map(StocksEnums::name).toList();
+        return repository.findTop60ByStockSymbolAndTimeframeOrderByStartTimeDesc(stockSymbols, String.valueOf(TimeframeEnums.ONE_MIN));
     }
-
 }

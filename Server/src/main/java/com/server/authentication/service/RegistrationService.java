@@ -31,7 +31,7 @@ public class RegistrationService {
         this.cookieService = cookieService;
     }
 
-    public AuthenticationResponseDTO register(RegisterRequestDTO request, HttpServletResponse response) throws IOException {
+    public AuthenticationResponseDTO register(RegisterRequestDTO request, HttpServletResponse response) {
         validateUsername(request.getUsername());
 
         Users user = buildUser(request);

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.server.aggregates.dto.AggregatesDTO;
 import com.server.aggregates.entity.Aggregates;
 import com.server.aggregates.repository.AggregatesRepository;
 import com.server.enums.StocksEnums;
@@ -15,7 +16,6 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-import com.server.aggregates.dto.AggregatesDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,13 +46,13 @@ public class PolygonWebSocketMessageHandler extends TextWebSocketHandler {
                 .collect(Collectors.joining(","));
         String subscribeMessage = String.format("{\"action\":\"subscribe\",\"params\":\"%s\"}", stocks);
         session.sendMessage(new TextMessage(subscribeMessage));
-        logger.info("Subscribing to stocks: {}", stocks);
+//        logger.info("Subscribing to stocks: {}", stocks);
     }
 
     @Override
     protected void handleTextMessage(@NonNull WebSocketSession session, TextMessage message) throws JsonProcessingException {
         String payload = message.getPayload();
-        logger.info("Received message: {}", payload);
+//        logger.info("Received message: {}", payload);
 
         List<AggregatesDTO> aggregateDataList = parsePayload(payload);
         aggregateDataList.forEach(this::processAggregateDTO);
@@ -66,7 +66,7 @@ public class PolygonWebSocketMessageHandler extends TextWebSocketHandler {
         String rawSymbol = dto.getSym();
 
         if (rawSymbol == null) {
-            logger.warn("Received null symbol, skipping this entry.");
+//            logger.warn("Received null symbol, skipping this entry.");
             return;
         }
 

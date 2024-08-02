@@ -34,7 +34,7 @@ public class LoginService {
 
     public AuthenticationResponseDTO authenticate(AuthenticationRequestDTO request, HttpServletResponse response) {
         Users user = findAndValidateUser(request.getUsername().toLowerCase(), request.getPassword());
-        log.info("Successfully authenticated user with identifier: {}", user.getUsername());
+        log.info("Successfully authenticated user: {}", user.getUsername());
 
         String jwtToken = tokenService.generateToken(user);
         String refreshToken = tokenService.generateRefreshToken(user);
@@ -47,20 +47,16 @@ public class LoginService {
     }
 
     private Users findAndValidateUser(String identifier, String password) {
-        log.info("Authenticating user with identifier: {}", identifier);
+        log.info("Authenticating user: {}", identifier);
 
         Optional<Users> optionalUser = repository.findByUsernameOrEmail(identifier);
         if (optionalUser.isEmpty()) {
-            log.error("User not found with identifier: {}", identifier);
+            log.error("User not found: {}", identifier);
             throw new UsernameNotFoundException("User not found");
         }
 
         Users user = optionalUser.get();
-
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), password)
-        );
-
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), password));
         return user;
     }
 

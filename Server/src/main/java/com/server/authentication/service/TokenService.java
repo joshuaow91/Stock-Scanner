@@ -97,7 +97,7 @@ public class TokenService {
         return null;
     }
 
-    private void processTokens(HttpServletResponse response, Users user) throws IOException {
+    private void processTokens(HttpServletResponse response, Users user) {
         String accessToken = jwtService.generateToken(user);
         String newRefreshToken = jwtService.generateRefreshToken(user);
 

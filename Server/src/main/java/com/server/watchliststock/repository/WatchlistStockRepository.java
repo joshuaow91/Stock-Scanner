@@ -14,8 +14,8 @@ import java.util.List;
 @Repository
 public interface WatchlistStockRepository extends JpaRepository<WatchlistStock, Long> {
 
-    @Query(value = "SELECT * FROM watchlist_stock WHERE id = 1", nativeQuery = true)
-    List<StocksEnums> getDefaultStocksByWatchlistId(int id);
+    @Query(value = "SELECT stock_symbol FROM watchlist_stock WHERE watchlist_id = :id", nativeQuery = true)
+    List<StocksEnums> getDefaultStocksByWatchlistId(@Param("id") int id);
 
     @Modifying
     @Transactional
