@@ -15,6 +15,8 @@ public class WatchlistsController {
         this.watchlistsService = watchlistsService;
     }
 
+
+
     @PostMapping
     public WatchlistResponseDTO createWatchlist(@RequestBody WatchlistRequestDTO request) {
         return watchlistsService.createWatchList(request);

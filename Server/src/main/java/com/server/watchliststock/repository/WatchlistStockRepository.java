@@ -1,6 +1,7 @@
 package com.server.watchliststock.repository;
 
 import com.server.enums.StocksEnums;
+import com.server.watchlists.entity.Watchlists;
 import com.server.watchliststock.entity.WatchlistStock;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface WatchlistStockRepository extends JpaRepository<WatchlistStock, Long> {
@@ -17,8 +19,6 @@ public interface WatchlistStockRepository extends JpaRepository<WatchlistStock, 
     @Query(value = "SELECT stock_symbol FROM watchlist_stock WHERE watchlist_id = :id", nativeQuery = true)
     List<StocksEnums> getDefaultStocksByWatchlistId(@Param("id") int id);
 
-    @Modifying
-    @Transactional
-    @Query(value = "INSERT INTO watchlist_stock (watchlist_id, stock_symbol) VALUES (:watchlistId, :stockSymbol)", nativeQuery = true)
-    StocksEnums saveStockToWatchlist(@Param("watchlistId") Long watchlistId, @Param("stock") StocksEnums stock);
+    @Query("SELECT ws FROM WatchlistStock ws WHERE ws.watchlists = :watchlist AND ws.stockSymbol = :stockSymbol")
+    Optional<WatchlistStock> findByWatchlistsAndStockSymbol(@Param("watchlist") Watchlists watchlist, @Param("stockSymbol") StocksEnums stockSymbol);
 }

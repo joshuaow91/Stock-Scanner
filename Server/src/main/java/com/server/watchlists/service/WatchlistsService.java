@@ -6,6 +6,7 @@ import com.server.watchlists.dto.WatchlistResponseDTO;
 import com.server.watchlists.dto.WatchlistRequestDTO;
 import com.server.watchlists.entity.Watchlists;
 import com.server.watchlists.repository.WatchlistsRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,8 +42,8 @@ public class WatchlistsService {
         watchlistsRepository.deleteById(id);
     }
 
-    private Watchlists findWatchlistById(Long id) {
-        return watchlistsRepository.findById(id).orElseThrow(() -> new RuntimeException("Watchlist not found"));
+    public Watchlists findWatchlistById(Long id) {
+        return watchlistsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Watchlist not found"));
     }
 
     private Users findUsersById(Long userId) {
