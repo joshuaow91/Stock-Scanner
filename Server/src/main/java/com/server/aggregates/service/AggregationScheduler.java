@@ -21,7 +21,7 @@ public class AggregationScheduler {
         this.watchlistStockService = watchlistStockService;
     }
 
-    @Scheduled(cron = "0 */1 * * * MON-FRI", zone = "America/New_York")
+    @Scheduled(cron = "0 */5 * * * MON-FRI", zone = "America/New_York")
     public void runFiveMinuteAggregation() {
         if (isMarketOpen(0)) {
             AggregationAbstractClass service = aggregationFactory.getService(TimeframeEnums.FIVE_MIN);
@@ -62,7 +62,7 @@ public class AggregationScheduler {
     private boolean isMarketOpen(int minutesToRunTaskAfterOpen) {
         LocalTime currentTime = LocalTime.now(ZoneId.of("America/New_York"));
         LocalTime marketOpen = LocalTime.of(9, 45).plusMinutes(minutesToRunTaskAfterOpen);
-        LocalTime marketClose = LocalTime.of(19, 15);
+        LocalTime marketClose = LocalTime.of(16, 15);
         return !currentTime.isBefore(marketOpen) && !currentTime.isAfter(marketClose);
     }
 }

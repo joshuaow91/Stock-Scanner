@@ -8,9 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -22,17 +21,19 @@ public class LoginService {
     private final UserRepository repository;
     private final TokenService tokenService;
     private final CookieService cookieService;
-    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
     private static final Logger log = LoggerFactory.getLogger(LoginService.class);
 
-    public LoginService(UserRepository repository, TokenService tokenService, CookieService cookieService, AuthenticationManager authenticationManager) {
+    public LoginService(UserRepository repository, TokenService tokenService, CookieService cookieService, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.tokenService = tokenService;
         this.cookieService = cookieService;
-        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public AuthenticationResponseDTO authenticate(AuthenticationRequestDTO request, HttpServletResponse response) {
+        log.info("Start authentication process for user: {}", request.getUsername());
+
         Users user = findAndValidateUser(request.getUsername().toLowerCase(), request.getPassword());
         log.info("Successfully authenticated user: {}", user.getUsername());
 
@@ -56,7 +57,11 @@ public class LoginService {
         }
 
         Users user = optionalUser.get();
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), password));
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            log.error("Invalid credentials for user: {}", identifier);
+            throw new UsernameNotFoundException("Invalid credentials");
+        }
+
         return user;
     }
 

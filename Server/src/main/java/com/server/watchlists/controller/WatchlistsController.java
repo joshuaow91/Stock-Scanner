@@ -1,12 +1,9 @@
 package com.server.watchlists.controller;
 
+import com.server.watchlists.dto.WatchlistResponseDTO;
+import com.server.watchlists.dto.WatchlistRequestDTO;
 import com.server.watchlists.service.WatchlistsService;
-import com.server.watchlists.entity.Watchlists;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/watchlists")
@@ -18,8 +15,19 @@ public class WatchlistsController {
         this.watchlistsService = watchlistsService;
     }
 
-    @GetMapping
-    public List<Watchlists> getDefaultWatchlist() {
-        return watchlistsService.getDefaultWatchlistStocks();
+    @PostMapping
+    public WatchlistResponseDTO createWatchlist(@RequestBody WatchlistRequestDTO request) {
+        return watchlistsService.createWatchList(request);
+    }
+
+    @PutMapping("/{id}")
+    public WatchlistResponseDTO updateWatchlistName(@PathVariable Long id, @RequestBody WatchlistRequestDTO request) {
+        return watchlistsService.updateWatchlistName(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteWatchlist(@PathVariable Long id) {
+        watchlistsService.deleteWatchlist(id);
+        return "Watchlist Deleted";
     }
 }

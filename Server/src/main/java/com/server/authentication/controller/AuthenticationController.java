@@ -29,7 +29,7 @@ public class AuthenticationController {
     }
 
     @PostMapping
-    public AuthenticationResponseDTO register(@RequestBody RegisterRequestDTO request, HttpServletResponse response) throws IOException {
+    public AuthenticationResponseDTO register(@RequestBody RegisterRequestDTO request, HttpServletResponse response) {
         return registrationService.register(request, response);
     }
 
