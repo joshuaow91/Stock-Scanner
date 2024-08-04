@@ -1,16 +1,16 @@
 package com.server.authentication.dto;
 
-import com.server.users.entity.Users;
+import com.server.users.dto.UserDTO;
 
 public class AuthenticationResponseDTO {
     private final String accessToken;
     private final String refreshToken;
-    private final Users user;
+    private final UserDTO user;
 
-    private AuthenticationResponseDTO(Builder builder) {
-        this.accessToken = builder.accessToken;
-        this.refreshToken = builder.refreshToken;
-        this.user = builder.user;
+    public AuthenticationResponseDTO(String accessToken, String refreshToken, UserDTO user) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.user = user;
     }
 
     public String getAccessToken() {
@@ -21,36 +21,7 @@ public class AuthenticationResponseDTO {
         return refreshToken;
     }
 
-    public Users getUser() {
+    public UserDTO getUser() {
         return user;
-    }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public static class Builder {
-        private String accessToken;
-        private String refreshToken;
-        private Users user;
-
-        public Builder accessToken(String accessToken) {
-            this.accessToken = accessToken;
-            return this;
-        }
-
-        public Builder refreshToken(String refreshToken) {
-            this.refreshToken = refreshToken;
-            return this;
-        }
-
-        public Builder user(Users user) {
-            this.user = user;
-            return this;
-        }
-
-        public AuthenticationResponseDTO build() {
-            return new AuthenticationResponseDTO(this);
-        }
     }
 }

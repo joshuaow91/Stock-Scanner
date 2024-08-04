@@ -2,16 +2,16 @@ package com.server.authentication.service;
 
 import com.server.authentication.dto.AuthenticationResponseDTO;
 import com.server.authentication.dto.RegisterRequestDTO;
+import com.server.users.dto.UserDTO;
 import com.server.users.repository.UserRepository;
 import com.server.users.entity.Users;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 
 @Service
 public class RegistrationService {
@@ -37,8 +37,8 @@ public class RegistrationService {
         Users user = buildUser(request);
         Users savedUser = saveUser(user);
 
-        String jwtToken = jwtService.generateToken(savedUser);
-        String refreshToken = jwtService.generateRefreshToken(savedUser);
+        String jwtToken = jwtService.generateToken((UserDetails) savedUser);
+        String refreshToken = jwtService.generateRefreshToken((UserDetails) savedUser);
 
         tokenService.saveUserToken(savedUser, jwtToken);
 
@@ -71,10 +71,8 @@ public class RegistrationService {
     }
 
     private AuthenticationResponseDTO buildAuthenticationResponse(String jwtToken, String refreshToken, Users user) {
-        return AuthenticationResponseDTO.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .user(user)
-                .build();
+        UserDTO userResponseDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail());
+        return new AuthenticationResponseDTO(jwtToken, refreshToken, userResponseDTO);
     }
+
 }

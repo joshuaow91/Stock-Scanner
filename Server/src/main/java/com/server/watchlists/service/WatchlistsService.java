@@ -9,6 +9,9 @@ import com.server.watchlists.repository.WatchlistsRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class WatchlistsService {
 
@@ -18,6 +21,11 @@ public class WatchlistsService {
     public WatchlistsService(WatchlistsRepository watchlistsRepository, UserRepository userRepository) {
         this.watchlistsRepository = watchlistsRepository;
         this.userRepository = userRepository;
+    }
+
+    public List<WatchlistResponseDTO> getAllWatchlistsByUserId (Long userId) {
+        List<Watchlists> watchlists = watchlistsRepository.findByUserId(userId);
+        return watchlists.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public WatchlistResponseDTO createWatchList(WatchlistRequestDTO request) {

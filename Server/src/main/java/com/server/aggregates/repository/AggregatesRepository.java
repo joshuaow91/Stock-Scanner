@@ -25,4 +25,7 @@ public interface AggregatesRepository extends JpaRepository<Aggregates, Long> {
 
     @Query(value = "SELECT * FROM aggregates WHERE stock_symbol IN :stockSymbol AND timeframe = :timeframe ORDER BY start_time DESC LIMIT 390", nativeQuery = true)
     List<Aggregates> findTop390ByStockSymbolAndTimeframeOrderByStartTimeDesc(@Param("stockSymbol") List<String> stockSymbol, @Param("timeframe") String timeframe);
+
+    @Query("SELECT a FROM Aggregates a WHERE a.stockSymbol IN :stockSymbols AND a.timeframe = :timeframe")
+    List<Aggregates> findAggregatesByStockSymbolsAndTimeframe(@Param("stockSymbols") List<String> stockSymbols, @Param("timeframe") String timeframe);
 }

@@ -5,6 +5,8 @@ import com.server.watchlists.dto.WatchlistRequestDTO;
 import com.server.watchlists.service.WatchlistsService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/watchlists")
 public class WatchlistsController {
@@ -15,7 +17,10 @@ public class WatchlistsController {
         this.watchlistsService = watchlistsService;
     }
 
-
+    @GetMapping("/user/{userId}")
+    public List<WatchlistResponseDTO> getAllWatchlistsByUserId(@PathVariable Long userId) {
+        return watchlistsService.getAllWatchlistsByUserId(userId);
+    }
 
     @PostMapping
     public WatchlistResponseDTO createWatchlist(@RequestBody WatchlistRequestDTO request) {

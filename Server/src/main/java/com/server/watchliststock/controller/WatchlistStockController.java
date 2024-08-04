@@ -1,9 +1,10 @@
 package com.server.watchliststock.controller;
 
+import com.server.aggregates.entity.Aggregates;
 import com.server.enums.StocksEnums;
+import com.server.enums.TimeframeEnums;
 import com.server.watchliststock.dto.StockRequestDTO;
 import com.server.watchliststock.dto.StockResponseDTO;
-import com.server.watchliststock.entity.WatchlistStock;
 import com.server.watchliststock.service.WatchlistStockService;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,11 @@ public class WatchlistStockController {
     @GetMapping("/default/stocks")
     public List<StocksEnums> getDefaultStocks() {
         return watchlistStockService.getDefaultStocks();
+    }
+
+    @GetMapping("/{watchlistId}/stocks/aggregates")
+    public List<Aggregates> getAggregatesByWatchlistIdStockAndTimeframe(@PathVariable Long watchlistId, @RequestParam TimeframeEnums timeframe) {
+        return watchlistStockService.getAggregatesByWatchlistIdStockAndTimeframe(watchlistId, timeframe);
     }
 
     @PostMapping("/{watchlistId}/stocks")

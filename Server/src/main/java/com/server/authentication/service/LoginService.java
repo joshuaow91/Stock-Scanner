@@ -2,6 +2,7 @@ package com.server.authentication.service;
 
 import com.server.authentication.dto.AuthenticationRequestDTO;
 import com.server.authentication.dto.AuthenticationResponseDTO;
+import com.server.users.dto.UserDTO;
 import com.server.users.repository.UserRepository;
 import com.server.users.entity.Users;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,7 +45,7 @@ public class LoginService {
         tokenService.revokeAllUserTokens(user);
         tokenService.saveUserToken(user, jwtToken);
 
-        return buildAuthenticationResponse(jwtToken, refreshToken);
+        return buildAuthenticationResponse(jwtToken, refreshToken, new UserDTO(user.getId(), user.getUsername()));
     }
 
     private Users findAndValidateUser(String identifier, String password) {
@@ -70,11 +71,8 @@ public class LoginService {
         cookieService.addHttpOnlyCookie(response, "refresh_token", refreshToken);
     }
 
-    private AuthenticationResponseDTO buildAuthenticationResponse(String jwtToken, String refreshToken) {
-        return AuthenticationResponseDTO.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .build();
+    private AuthenticationResponseDTO buildAuthenticationResponse(String jwtToken, String refreshToken, UserDTO user) {
+        return new AuthenticationResponseDTO(jwtToken, refreshToken, user);
     }
 
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {

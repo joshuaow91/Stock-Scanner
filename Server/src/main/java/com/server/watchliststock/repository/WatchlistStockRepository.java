@@ -3,9 +3,7 @@ package com.server.watchliststock.repository;
 import com.server.enums.StocksEnums;
 import com.server.watchlists.entity.Watchlists;
 import com.server.watchliststock.entity.WatchlistStock;
-import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -21,4 +19,7 @@ public interface WatchlistStockRepository extends JpaRepository<WatchlistStock, 
 
     @Query("SELECT ws FROM WatchlistStock ws WHERE ws.watchlists = :watchlist AND ws.stockSymbol = :stockSymbol")
     Optional<WatchlistStock> findByWatchlistsAndStockSymbol(@Param("watchlist") Watchlists watchlist, @Param("stockSymbol") StocksEnums stockSymbol);
+
+    @Query("SELECT ws.stockSymbol FROM WatchlistStock ws WHERE ws.watchlists.id = :watchlistId")
+    List<String> findStockSymbolsByWatchlistId(@Param("watchlistId") Long watchlistId);
 }

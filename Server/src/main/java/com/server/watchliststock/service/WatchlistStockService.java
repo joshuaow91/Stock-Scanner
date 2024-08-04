@@ -1,6 +1,9 @@
 package com.server.watchliststock.service;
 
+import com.server.aggregates.entity.Aggregates;
+import com.server.aggregates.repository.AggregatesRepository;
 import com.server.enums.StocksEnums;
+import com.server.enums.TimeframeEnums;
 import com.server.watchlists.entity.Watchlists;
 import com.server.watchlists.service.WatchlistsService;
 import com.server.watchliststock.dto.StockResponseDTO;
@@ -16,14 +19,21 @@ public class WatchlistStockService {
 
     private final WatchlistStockRepository watchlistStockRepository;
     private final WatchlistsService watchlistsService;
+    private final AggregatesRepository aggregatesRepository;
 
-    public WatchlistStockService(WatchlistStockRepository watchlistStockRepository, WatchlistsService watchlistsService) {
+    public WatchlistStockService(WatchlistStockRepository watchlistStockRepository, WatchlistsService watchlistsService, AggregatesRepository aggregatesRepository) {
         this.watchlistStockRepository = watchlistStockRepository;
         this.watchlistsService = watchlistsService;
+        this.aggregatesRepository = aggregatesRepository;
     }
 
     public List<StocksEnums> getDefaultStocks() {
         return watchlistStockRepository.getDefaultStocksByWatchlistId(1);
+    }
+
+    public List<Aggregates> getAggregatesByWatchlistIdStockAndTimeframe(Long watchlistId, TimeframeEnums timeframe) {
+        List<String> stockSymbols = watchlistStockRepository.findStockSymbolsByWatchlistId(watchlistId);
+        return aggregatesRepository.findAggregatesByStockSymbolsAndTimeframe(stockSymbols, timeframe.toString());
     }
 
     public StockResponseDTO addStockToWatchlist(Long watchlistId, StocksEnums stock) {

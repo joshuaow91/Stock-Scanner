@@ -1,9 +1,20 @@
 package com.server.users.dto;
 
-public class UsersResponseDTO {
+public class UserDTO {
     private long id;
     private String username;
     private String email;
+
+    public UserDTO(Long id, String username) {
+        this.id = id;
+        this.username = username;
+    }
+
+    public UserDTO(Long id, String username, String email) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+    }
 
     public long getId() {
         return id;
