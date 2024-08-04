@@ -20,8 +20,8 @@ public class WatchlistStockController {
         this.watchlistStockService = watchlistStockService;
     }
 
-    @GetMapping("/default/stocks")
-    public List<StocksEnums> getDefaultStocks() {
+    @GetMapping("/default/stocks/aggregates")
+    public List<StocksEnums> getDefaultStocks(Long watchlistId, @RequestParam TimeframeEnums timeframe) {
         return watchlistStockService.getDefaultStocks();
     }
 

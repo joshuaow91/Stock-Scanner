@@ -33,7 +33,7 @@ public class WatchlistStockService {
 
     public List<Aggregates> getAggregatesByWatchlistIdStockAndTimeframe(Long watchlistId, TimeframeEnums timeframe) {
         List<String> stockSymbols = watchlistStockRepository.findStockSymbolsByWatchlistId(watchlistId);
-        return aggregatesRepository.findAggregatesByStockSymbolsAndTimeframe(stockSymbols, timeframe.toString());
+        return aggregatesRepository.findAggregatesByStockSymbolsAndTimeframe(stockSymbols, timeframe);
     }
 
     public StockResponseDTO addStockToWatchlist(Long watchlistId, StocksEnums stock) {
