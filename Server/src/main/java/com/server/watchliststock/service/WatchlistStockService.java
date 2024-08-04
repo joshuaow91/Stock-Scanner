@@ -31,9 +31,14 @@ public class WatchlistStockService {
         return watchlistStockRepository.getDefaultStocksByWatchlistId(1);
     }
 
+    public List<Aggregates> getDefaultWatchlistStocks(TimeframeEnums timeframe) {
+        List<String> stockSymbols = getStockSymbolsByWatchlistId(1L);
+        return getAggregatesByStockSymbolsAndTimeframe(stockSymbols, timeframe);
+    }
+
     public List<Aggregates> getAggregatesByWatchlistIdStockAndTimeframe(Long watchlistId, TimeframeEnums timeframe) {
-        List<String> stockSymbols = watchlistStockRepository.findStockSymbolsByWatchlistId(watchlistId);
-        return aggregatesRepository.findAggregatesByStockSymbolsAndTimeframe(stockSymbols, timeframe);
+        List<String> stockSymbols = getStockSymbolsByWatchlistId(watchlistId);
+        return getAggregatesByStockSymbolsAndTimeframe(stockSymbols, timeframe);
     }
 
     public StockResponseDTO addStockToWatchlist(Long watchlistId, StocksEnums stock) {
@@ -53,6 +58,14 @@ public class WatchlistStockService {
                 .orElseThrow(() -> new EntityNotFoundException("Stock not found in watchlist"));
 
         watchlistStockRepository.delete(watchlistStock);
+    }
+
+    private List<String> getStockSymbolsByWatchlistId(Long watchlistId) {
+        return watchlistStockRepository.findStockSymbolsByWatchlistId(watchlistId);
+    }
+
+    private List<Aggregates> getAggregatesByStockSymbolsAndTimeframe(List<String> stockSymbols, TimeframeEnums timeframe) {
+        return aggregatesRepository.findAggregatesByStockSymbolsAndTimeframe(stockSymbols, timeframe);
     }
 
     private StockResponseDTO convertToDTO(WatchlistStock stock) {

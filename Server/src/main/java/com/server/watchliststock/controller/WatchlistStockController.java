@@ -21,8 +21,8 @@ public class WatchlistStockController {
     }
 
     @GetMapping("/default/stocks/aggregates")
-    public List<StocksEnums> getDefaultStocks(Long watchlistId, @RequestParam TimeframeEnums timeframe) {
-        return watchlistStockService.getDefaultStocks();
+    public List<Aggregates> getDefaultWatchlistStocks(@RequestParam TimeframeEnums timeframe) {
+        return watchlistStockService.getDefaultWatchlistStocks(timeframe);
     }
 
     @GetMapping("/{watchlistId}/stocks/aggregates")

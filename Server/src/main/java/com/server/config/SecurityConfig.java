@@ -44,7 +44,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/user", "/user/session", "/user/session/token", "/watchlists/default/stocks").permitAll()
+                        .requestMatchers("/user", "/user/session", "/user/session/token", "/watchlists/default/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(s ->
