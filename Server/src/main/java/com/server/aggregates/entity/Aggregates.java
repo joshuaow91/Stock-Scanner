@@ -1,6 +1,6 @@
 package com.server.aggregates.entity;
 
-import com.server.scenarios.enums.ScenarioEnums;
+import com.server.enums.ScenarioEnums;
 import com.server.enums.StocksEnums;
 import com.server.enums.TimeframeEnums;
 import jakarta.persistence.*;
@@ -61,6 +61,11 @@ public class Aggregates {
                 ", endTime=" + endTime +
                 ", stockSymbol=" + stockSymbol +
                 ", timeframe=" + timeframe +
+                ", trigger up" + triggerPriceUp +
+                ", trigger down" + triggerPriceDown +
+                ", target up" + targetPriceUp +
+                ", target down" + targetPriceDown +
+                ", scenario" + scenario +
                 '}';
     }
 

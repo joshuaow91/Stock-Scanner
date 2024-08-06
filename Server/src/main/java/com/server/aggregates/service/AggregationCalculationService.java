@@ -1,6 +1,7 @@
 package com.server.aggregates.service;
 
 import com.server.aggregates.entity.Aggregates;
+import com.server.enums.ScenarioEnums;
 import com.server.enums.TimeframeEnums;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,7 @@ public class AggregationCalculationService {
         double triggerDown = calculateTriggerPriceDown(lowerTimeframeAggregates);
         double targetUp = calculateTargetPriceUp(lowerTimeframeAggregates);
         double targetDown = calculateTargetPriceDown(lowerTimeframeAggregates);
+        ScenarioEnums scenario = calculateScenario(lowerTimeframeAggregates);
 
         aggregated.setStockSymbol(lowerTimeframeAggregates.get(0).getStockSymbol());
         aggregated.setTimeframe(targetTimeframe);
@@ -41,6 +43,7 @@ public class AggregationCalculationService {
         aggregated.setTriggerPriceDown(triggerDown);
         aggregated.setTargetPriceUp(targetUp);
         aggregated.setTargetPriceDown(targetDown);
+        aggregated.setScenario(scenario);
 
         return aggregated;
     }
@@ -119,4 +122,45 @@ public class AggregationCalculationService {
                 .map(Aggregates::getLow)
                 .orElse(Double.NaN);
     }
+
+    private ScenarioEnums calculateScenario(List<Aggregates> aggregates) {
+        List<Aggregates> sortedAggregates = aggregates.stream()
+                .sorted(Comparator.comparing(Aggregates::getEndTime).reversed())
+                .toList();
+
+        Aggregates current = sortedAggregates.get(0);
+        Aggregates previous = sortedAggregates.get(1);
+
+        if (isInsideBar(current, previous)) {
+            return ScenarioEnums.INSIDE_BAR;
+        }
+        if (isDirectionalBarUp(current, previous)) {
+            return ScenarioEnums.DIRECTIONAL_BAR_UP;
+        }
+        if (isDirectionalBarDown(current, previous)) {
+            return ScenarioEnums.DIRECTIONAL_BAR_DOWN;
+        }
+        if (isOutsideBar(current, previous)) {
+            return ScenarioEnums.OUTSIDE_BAR;
+        }
+
+        return null;
+    }
+
+    private boolean isInsideBar(Aggregates current, Aggregates previous) {
+        return current.getHigh() <= previous.getHigh() && current.getLow() >= previous.getLow();
+    }
+
+    private boolean isDirectionalBarUp(Aggregates current, Aggregates previous) {
+        return current.getLow() > previous.getLow() && current.getHigh() > previous.getHigh();
+    }
+
+    private boolean isDirectionalBarDown(Aggregates current, Aggregates previous) {
+        return current.getLow() < previous.getLow() && current.getHigh() < previous.getHigh();
+    }
+
+    private boolean isOutsideBar(Aggregates current, Aggregates previous) {
+        return current.getHigh() > previous.getHigh() && current.getLow() < previous.getLow();
+    }
+
 }

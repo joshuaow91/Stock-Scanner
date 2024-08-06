@@ -1,4 +1,4 @@
-package com.server.scenarios.enums;
+package com.server.enums;
 
 public enum ScenarioEnums {
     INSIDE_BAR,

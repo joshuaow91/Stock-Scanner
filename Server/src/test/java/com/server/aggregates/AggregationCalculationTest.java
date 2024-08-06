@@ -2,6 +2,7 @@ package com.server.aggregates;
 
 import com.server.aggregates.entity.Aggregates;
 import com.server.aggregates.service.AggregationCalculationService;
+import com.server.enums.ScenarioEnums;
 import com.server.enums.TimeframeEnums;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,5 +57,6 @@ public class AggregationCalculationTest {
         assertEquals(110.32, result.getTriggerPriceDown());
         assertEquals(198.20, result.getTargetPriceUp());
         assertEquals(100.32, result.getTargetPriceDown());
+        assertEquals(ScenarioEnums.INSIDE_BAR, result.getScenario());
     }
 }
