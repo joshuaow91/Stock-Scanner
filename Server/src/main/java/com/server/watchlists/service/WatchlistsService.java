@@ -2,8 +2,8 @@ package com.server.watchlists.service;
 
 import com.server.users.entity.Users;
 import com.server.users.repository.UserRepository;
-import com.server.watchlists.dto.WatchlistResponseDTO;
 import com.server.watchlists.dto.WatchlistRequestDTO;
+import com.server.watchlists.dto.WatchlistResponseDTO;
 import com.server.watchlists.entity.Watchlists;
 import com.server.watchlists.repository.WatchlistsRepository;
 import jakarta.persistence.EntityNotFoundException;

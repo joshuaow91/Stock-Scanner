@@ -1,6 +1,5 @@
 package com.server.authentication.service;
 
-import com.server.users.entity.Users;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;

@@ -1,11 +1,11 @@
 package com.server.authentication.controller;
 
-import com.server.authentication.service.LoginService;
-import com.server.authentication.service.LogoutService;
-import com.server.authentication.service.RegistrationService;
 import com.server.authentication.dto.AuthenticationRequestDTO;
 import com.server.authentication.dto.AuthenticationResponseDTO;
 import com.server.authentication.dto.RegisterRequestDTO;
+import com.server.authentication.service.LoginService;
+import com.server.authentication.service.LogoutService;
+import com.server.authentication.service.RegistrationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,12 +1,11 @@
 package com.server.aggregates.service;
 
-import com.server.aggregates.repository.AggregatesRepository;
 import com.server.aggregates.entity.Aggregates;
+import com.server.aggregates.repository.AggregatesRepository;
 import com.server.enums.StocksEnums;
 import com.server.enums.TimeframeEnums;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DailyAggregatesService extends AggregationAbstractClass {
 

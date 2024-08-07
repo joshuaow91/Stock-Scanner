@@ -1,8 +1,8 @@
 package com.server.authentication.service;
 
 import com.server.authentication.repository.TokenRepository;
-import com.server.users.repository.UserRepository;
 import com.server.users.entity.Users;
+import com.server.users.repository.UserRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AggregationCalculationService {
@@ -123,7 +124,7 @@ public class AggregationCalculationService {
                 .orElse(Double.NaN);
     }
 
-    private ScenarioEnums calculateScenario(List<Aggregates> aggregates) {
+    private Optional<ScenarioEnums> calculateScenario(List<Aggregates> aggregates) {
         List<Aggregates> sortedAggregates = aggregates.stream()
                 .sorted(Comparator.comparing(Aggregates::getEndTime).reversed())
                 .toList();
@@ -132,19 +133,19 @@ public class AggregationCalculationService {
         Aggregates previous = sortedAggregates.get(1);
 
         if (isInsideBar(current, previous)) {
-            return ScenarioEnums.INSIDE_BAR;
+            return Optional.of(ScenarioEnums.INSIDE_BAR);
         }
         if (isDirectionalBarUp(current, previous)) {
-            return ScenarioEnums.DIRECTIONAL_BAR_UP;
+            return Optional.of(ScenarioEnums.DIRECTIONAL_BAR_UP);
         }
         if (isDirectionalBarDown(current, previous)) {
-            return ScenarioEnums.DIRECTIONAL_BAR_DOWN;
+            return Optional.of(ScenarioEnums.DIRECTIONAL_BAR_DOWN);
         }
         if (isOutsideBar(current, previous)) {
-            return ScenarioEnums.OUTSIDE_BAR;
+            return Optional.of(ScenarioEnums.OUTSIDE_BAR);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     private boolean isInsideBar(Aggregates current, Aggregates previous) {

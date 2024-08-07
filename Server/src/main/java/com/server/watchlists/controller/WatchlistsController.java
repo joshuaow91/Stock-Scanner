@@ -1,7 +1,7 @@
 package com.server.watchlists.controller;
 
-import com.server.watchlists.dto.WatchlistResponseDTO;
 import com.server.watchlists.dto.WatchlistRequestDTO;
+import com.server.watchlists.dto.WatchlistResponseDTO;
 import com.server.watchlists.service.WatchlistsService;
 import org.springframework.web.bind.annotation.*;
 

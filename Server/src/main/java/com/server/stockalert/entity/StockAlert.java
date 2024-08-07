@@ -1,8 +1,8 @@
 package com.server.stockalert.entity;
 
+import com.server.enums.TimeframeEnums;
 import com.server.stockalert.enums.AlertStatusEnums;
 import com.server.stockalert.enums.AlertTypeEnums;
-import com.server.enums.TimeframeEnums;
 import com.server.watchliststock.entity.WatchlistStock;
 import jakarta.persistence.*;
 

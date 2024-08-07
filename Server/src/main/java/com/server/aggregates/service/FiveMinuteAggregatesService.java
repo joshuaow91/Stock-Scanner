@@ -1,7 +1,7 @@
 package com.server.aggregates.service;
 
-import com.server.aggregates.repository.AggregatesRepository;
 import com.server.aggregates.entity.Aggregates;
+import com.server.aggregates.repository.AggregatesRepository;
 import com.server.enums.StocksEnums;
 import com.server.enums.TimeframeEnums;
 
