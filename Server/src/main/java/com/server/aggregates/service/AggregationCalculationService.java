@@ -30,7 +30,8 @@ public class AggregationCalculationService {
         double triggerDown = calculateTriggerPriceDown(lowerTimeframeAggregates);
         double targetUp = calculateTargetPriceUp(lowerTimeframeAggregates);
         double targetDown = calculateTargetPriceDown(lowerTimeframeAggregates);
-        ScenarioEnums scenario = calculateScenario(lowerTimeframeAggregates);
+        Optional<ScenarioEnums> optionalScenario = calculateScenario(lowerTimeframeAggregates);
+        ScenarioEnums scenario = optionalScenario.orElse(ScenarioEnums.NONE);
 
         aggregated.setStockSymbol(lowerTimeframeAggregates.get(0).getStockSymbol());
         aggregated.setTimeframe(targetTimeframe);
