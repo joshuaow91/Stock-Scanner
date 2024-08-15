@@ -21,15 +21,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PolygonWebSocketMessageHandler extends TextWebSocketHandler {
+public class AggregatesWebSocketMessageHandler extends TextWebSocketHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(PolygonWebSocketMessageHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(AggregatesWebSocketMessageHandler.class);
 
     private final AggregatesRepository aggregatesRepository;
     private final ObjectMapper objectMapper;
     private final String apiKey;
 
-    public PolygonWebSocketMessageHandler(AggregatesRepository aggregatesRepository, String apiKey) {
+    public AggregatesWebSocketMessageHandler(AggregatesRepository aggregatesRepository, String apiKey) {
         this.aggregatesRepository = aggregatesRepository;
         this.apiKey = apiKey;
         this.objectMapper = new ObjectMapper();
@@ -103,7 +103,7 @@ public class PolygonWebSocketMessageHandler extends TextWebSocketHandler {
     }
 
     @Override
-    public void afterConnectionClosed(@NonNull WebSocketSession session, @NonNull CloseStatus status) throws Exception {
+    public void afterConnectionClosed(@NonNull WebSocketSession session, @NonNull CloseStatus status) {
         logger.info("Connection closed with status: {}", status);
     }
 }

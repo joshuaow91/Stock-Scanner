@@ -23,11 +23,21 @@ public class WebSocketConfig {
     }
 
     @Bean
-    public WebSocketConnectionManager wsConnectionManager(AggregatesRepository aggregatesRepository) {
-        PolygonWebSocketMessageHandler handler = new PolygonWebSocketMessageHandler(aggregatesRepository, apiKey);
+    public WebSocketConnectionManager AggregatesWsConnectionManager(AggregatesRepository aggregatesRepository) {
+        AggregatesWebSocketMessageHandler handler = new AggregatesWebSocketMessageHandler(aggregatesRepository, apiKey);
         WebSocketConnectionManager manager = new WebSocketConnectionManager(
                 webSocketClient(), handler, polygonWsUrl);
         manager.setAutoStartup(true);
         return manager;
     }
+
+    @Bean
+    public WebSocketConnectionManager CurrentPriceWsConnectionManager() {
+        CurrentPriceWebSocketMessageHandler handler = new CurrentPriceWebSocketMessageHandler(apiKey);
+        WebSocketConnectionManager manager = new WebSocketConnectionManager(
+                webSocketClient(), handler, polygonWsUrl);
+        manager.setAutoStartup(true);
+        return manager;
+    }
+
 }
