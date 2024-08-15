@@ -16,6 +16,6 @@ export class ButtonComponent {
     };
 
 
-    return `${colors[this.buttonType]} text-white inline-flex items-center rounded-full px-2.5 py-0.5 text-sm font-medium`;
+    return `${colors[this.buttonType]} text-white inline-flex items-center rounded-full px-3 py-2 text-sm font-medium`;
   }
 }
