@@ -1,7 +1,12 @@
-<main class="flex justify-center items-center py-24">
-  <section class="flex gap-4 items-center justify-center">
-    <app-button text="primary button" buttonType="primary"></app-button>
-    <app-button text="secondary button" buttonType="secondary"></app-button>
-    <app-modal></app-modal>
+<header class="flex justify-center items-center py-8 max-w-7xl mx-auto">
+  <section class="flex w-full mx-8 gap-4 items-center justify-between">
+    <h1 class="text-3xl font-bold tracking-tight text-zinc-50">#TheSTRAT Stock Scanner</h1>
+    <div class="flex items-center gap-4">
+      <app-modal></app-modal>
+      <app-modal></app-modal>
+    </div>
   </section>
+</header>
+<main class=" py-8 w-full max-w-7xl mx-auto ">
+  <app-table></app-table>
 </main>

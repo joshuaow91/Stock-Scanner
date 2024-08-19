@@ -6,6 +6,7 @@ import com.server.enums.StocksEnums;
 import com.server.enums.TimeframeEnums;
 import com.server.watchlists.entity.Watchlists;
 import com.server.watchlists.service.WatchlistsService;
+import com.server.watchliststock.dto.DefaultWatchlistDTO;
 import com.server.watchliststock.dto.StockResponseDTO;
 import com.server.watchliststock.entity.WatchlistStock;
 import com.server.watchliststock.repository.WatchlistStockRepository;
@@ -13,6 +14,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WatchlistStockService {
@@ -31,9 +33,32 @@ public class WatchlistStockService {
         return watchlistStockRepository.getDefaultStocksByWatchlistId(1);
     }
 
-    public List<Aggregates> getDefaultWatchlistStocks(TimeframeEnums timeframe) {
+    public List<DefaultWatchlistDTO> getDefaultWatchlistStocks(TimeframeEnums timeframe) {
         List<String> stockSymbols = getStockSymbolsByWatchlistId(1L);
-        return getAggregatesByStockSymbolsAndTimeframe(stockSymbols, timeframe);
+        return stockSymbols.stream()
+                .map(symbol -> mapToDefaultWatchlistDTO(StocksEnums.valueOf(symbol), timeframe))
+                .collect(Collectors.toList());
+    }
+
+    private DefaultWatchlistDTO mapToDefaultWatchlistDTO (StocksEnums stock, TimeframeEnums timeframe) {
+        List<Aggregates> recentAggregates = aggregatesRepository.findTop3ByStockSymbolAndTimeframeOrderByEndTimeDesc(stock, timeframe);
+
+        String c1 = recentAggregates.get(0).getScenario().name();
+        String c2 = recentAggregates.get(1).getScenario().name();
+        String cc = recentAggregates.get(2).getScenario().name();
+
+        Aggregates mostRecent = recentAggregates.get(0);
+
+        return new DefaultWatchlistDTO(
+                stock,
+                mostRecent.getTargetPriceUp(),
+                mostRecent.getTargetPriceDown(),
+                mostRecent.getTriggerPriceDown(),
+                mostRecent.getTriggerPriceUp(),
+                c1,
+                c2,
+                cc
+        );
     }
 
     public List<Aggregates> getAggregatesByWatchlistIdStockAndTimeframe(Long watchlistId, TimeframeEnums timeframe) {

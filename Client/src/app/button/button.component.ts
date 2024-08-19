@@ -3,7 +3,6 @@ import {Component, Input} from '@angular/core';
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.css']
 })
 export class ButtonComponent {
   @Input() text: string | undefined;
@@ -11,11 +10,11 @@ export class ButtonComponent {
 
   getButtonClass(buttonType: string): string {
     const colors = {
-      primary: 'bg-green-500',
+      primary: 'bg-blue-500',
       secondary: 'bg-gray-500'
     };
 
 
-    return `${colors[this.buttonType]} text-white inline-flex items-center rounded-full px-3 py-2 text-sm font-medium`;
+    return `${colors[this.buttonType]} text-white inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium`;
   }
 }

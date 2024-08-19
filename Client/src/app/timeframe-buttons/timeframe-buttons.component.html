@@ -1,0 +1,9 @@
+<section class="flex gap-4">
+  <button *ngFor="let timeframe of timeframes"
+          (click)="onTimeframeSelect(timeframe.timeframe)"
+          [ngClass]="{'ring ring-offset-2 ring-offset-zinc-900 ring-zinc-600' : timeframe.timeframe === activeTimeframe}"
+          class=" bg-blue-500 hover:bg-blue-600 rounded-md p-2 w-16 text-white">
+    {{ timeframe.name }}
+  </button>
+</section>
+

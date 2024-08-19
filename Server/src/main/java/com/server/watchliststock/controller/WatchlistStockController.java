@@ -3,6 +3,7 @@ package com.server.watchliststock.controller;
 import com.server.aggregates.entity.Aggregates;
 import com.server.enums.StocksEnums;
 import com.server.enums.TimeframeEnums;
+import com.server.watchliststock.dto.DefaultWatchlistDTO;
 import com.server.watchliststock.dto.StockRequestDTO;
 import com.server.watchliststock.dto.StockResponseDTO;
 import com.server.watchliststock.service.WatchlistStockService;
@@ -21,7 +22,7 @@ public class WatchlistStockController {
     }
 
     @GetMapping("/default/stocks/aggregates")
-    public List<Aggregates> getDefaultWatchlistStocks(@RequestParam TimeframeEnums timeframe) {
+    public List<DefaultWatchlistDTO> getDefaultWatchlistStocks(@RequestParam TimeframeEnums timeframe) {
         return watchlistStockService.getDefaultWatchlistStocks(timeframe);
     }
 

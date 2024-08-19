@@ -1,6 +1,8 @@
 package com.server.watchliststock.repository;
 
+import com.server.aggregates.entity.Aggregates;
 import com.server.enums.StocksEnums;
+import com.server.enums.TimeframeEnums;
 import com.server.watchlists.entity.Watchlists;
 import com.server.watchliststock.entity.WatchlistStock;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,4 +24,5 @@ public interface WatchlistStockRepository extends JpaRepository<WatchlistStock, 
 
     @Query("SELECT ws.stockSymbol FROM WatchlistStock ws WHERE ws.watchlists.id = :watchlistId")
     List<String> findStockSymbolsByWatchlistId(@Param("watchlistId") Long watchlistId);
+
 }
