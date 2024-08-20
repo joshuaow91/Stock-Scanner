@@ -31,13 +31,13 @@ public class WebSocketConfig {
         return manager;
     }
 
-    @Bean
-    public WebSocketConnectionManager CurrentPriceWsConnectionManager() {
-        CurrentPriceWebSocketMessageHandler handler = new CurrentPriceWebSocketMessageHandler(apiKey);
-        WebSocketConnectionManager manager = new WebSocketConnectionManager(
-                webSocketClient(), handler, polygonWsUrl);
-        manager.setAutoStartup(true);
-        return manager;
-    }
+//    @Bean
+//    public WebSocketConnectionManager CurrentPriceWsConnectionManager() {
+//        CurrentPriceWebSocketMessageHandler handler = new CurrentPriceWebSocketMessageHandler(apiKey);
+//        WebSocketConnectionManager manager = new WebSocketConnectionManager(
+//                webSocketClient(), handler, polygonWsUrl);
+//        manager.setAutoStartup(true);
+//        return manager;
+//    }
 
 }
