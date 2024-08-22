@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, catchError, Observable, tap, throwError} from "rxjs";
+import {BehaviorSubject, catchError, Observable, tap} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,7 @@ export class AuthService {
   }
 
   private checkAuthStatus(): void {
-    this.http.get<boolean>('http://localhost:8080/user/auth').subscribe({
+    this.http.get<boolean>('http://localhost:8080/user/auth', { withCredentials: true }).subscribe({
       next: (isAuthenticated) => this.isAuthenticatedSubject.next(isAuthenticated),
       error: () => this.isAuthenticatedSubject.next(false)
     });
@@ -32,7 +31,7 @@ export class AuthService {
   }
 
   login(credentials: {username: string, password: string}): Observable<any> {
-    return this.http.post('http://localhost:8080/user/session', credentials).pipe(
+    return this.http.post('http://localhost:8080/user/session', credentials, { withCredentials: true }).pipe(
       tap(() => this.isAuthenticatedSubject.next(true)),
       catchError((error) => {
         console.error(error);
@@ -42,8 +41,16 @@ export class AuthService {
   }
 
   logout(): void {
-    this.http.delete('http://localhost:8080/user/session', {}).subscribe(() => {
-      tap(() => this.isAuthenticatedSubject.next(false))
+    this.http.delete('http://localhost:8080/user/session', { withCredentials: true }).subscribe({
+      next: () => {
+        this.isAuthenticatedSubject.next(false);
+        this.checkAuthStatus();
+      },
+      error: (err) => {
+        console.error('Logout failed', err);
+        // Optionally handle the error
+        this.isAuthenticatedSubject.next(false);
+      }
     });
   }
 
