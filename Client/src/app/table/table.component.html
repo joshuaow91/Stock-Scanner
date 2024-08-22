@@ -1,15 +1,47 @@
 
-<section class="max-w-7xl w-full mx-auto space-y-4 relative overflow-x-auto p-4 text-gray-300">
+<section class="max-w-7xl w-full mx-auto space-y-4 relative  p-4 text-gray-300">
 
 <table class="table w-full text-sm text-left rtl:text-right mx-4 ">
-  <caption class="py-5 text-xl font-semibold text-left rtl:text-right text-zinc-50 ">
-    Strat Scanner
-    <p class="mt-1 text-sm font-normal mb-4 text-zinc-100">
-      Description here for how to use
+  <caption class="py-5 text-left rtl:text-right text-zinc-50">
+    <h2 class="text-xl text-teal-400">How Does It Work?</h2>
+    <p class="mt-1 text-sm font-normal mb-4 text-indigo-200">
+      The STRAT Scanner is a powerful tool designed to help traders quickly identify potential trading setups based on the STRAT methodology. It provides insights into different timeframes and scenarios, making it easier for traders to make informed decisions.
     </p>
+
+    <h2 class="mt-1 text-xl font-normal mb-4 text-teal-300">
+      How to Use:
+    </h2>
+    <ul class="mt-1 text-sm font-normal mb-4 text-zinc-100 list-disc pl-5 space-y-3">
+      <li><strong class="text-blue-400">Select a Timeframe:</strong> Use the buttons at the top <span class="text-teal-300">(5, 15, 30, 60, D)</span> to select the timeframe you want to analyze. The scanner will update the data accordingly.</li>
+      <li><strong class="text-blue-400">Analyze the Scenarios:</strong> The table below displays stock symbols along with their STRAT scenarios for the selected timeframe. The columns <span class="text-teal-300">C1, C2,</span> and <span class="text-teal-300">CC</span> represent the three most recent scenarios, helping you identify trends and patterns.</li>
+      <li><strong class="text-blue-400">Review the Triggers and Targets:</strong> The scanner shows the current price along with the triggers and targets for both <span class="text-green-400">bullish</span> and <span class="text-red-400">bearish</span> scenarios. These values indicate potential entry and exit points based on the STRAT setup.</li>
+    </ul>
+
+    <h2 class="mt-1 text-xl font-normal mb-2 mt-8 text-teal-300">
+      What are "The Strat" Scenarios?
+    </h2>
+    <div class="flex justify-between gap-4 pb-8 text-center">
+      <div class="flex-1 p-4 bg-zinc-800 rounded-2xl">
+        <strong class="text-teal-400">Inside Bar (1)</strong>
+        <p class="text-indigo-200">The Inside Bar (1) scenario occurs when the current bar's price range is completely within the previous bar's range. This scenario indicates consolidation and potential breakout in either direction.</p>
+      </div>
+
+      <div class="flex-1 p-4 bg-zinc-800 rounded-2xl">
+        <strong class="text-teal-400">Directional Bar (2)</strong>
+        <p class="text-indigo-200">The Directional Bar (2) scenario occurs when the current bar breaks either the high or low of the previous bar. This setup suggests continuation in the direction of the breakout.</p>
+      </div>
+
+      <div class="flex-1 p-4 bg-zinc-800 rounded-2xl">
+        <strong class="text-teal-400">Outside Bar (3)</strong>
+        <p class="text-indigo-200">The Outside Bar (3) scenario occurs when the current bar's range engulfs the previous bar, breaking both its high and low. This scenario often indicates increased volatility and potential reversal or continuation.</p>
+      </div>
+    </div>
+
     <app-timeframe-buttons [activeTimeframe]="defaultTimeframe" (selectedTimeframe)="onTimeframeSelected($event)"></app-timeframe-buttons>
 
   </caption>
+
+
   <thead class=" text-gray-300 uppercase">
   <th>Symbol</th>
   <th scope="col" class="py-2">C1</th>

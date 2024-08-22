@@ -6,10 +6,7 @@ import com.server.users.dto.UserDTO;
 import com.server.users.entity.Users;
 import com.server.users.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +18,6 @@ public class RegistrationService {
     private final JwtService jwtService;
     private final TokenService tokenService;
     private final CookieService cookieService;
-    private static final Logger log = LoggerFactory.getLogger(RegistrationService.class);
 
     public RegistrationService(UserRepository repository, PasswordEncoder passwordEncoder, JwtService jwtService, TokenService tokenService, CookieService cookieService) {
         this.repository = repository;
@@ -37,8 +33,8 @@ public class RegistrationService {
         Users user = buildUser(request);
         Users savedUser = saveUser(user);
 
-        String jwtToken = jwtService.generateToken((UserDetails) savedUser);
-        String refreshToken = jwtService.generateRefreshToken((UserDetails) savedUser);
+        String jwtToken = jwtService.generateToken(savedUser);
+        String refreshToken = jwtService.generateRefreshToken(savedUser);
 
         tokenService.saveUserToken(savedUser, jwtToken);
 
