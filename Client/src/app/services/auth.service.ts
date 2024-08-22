@@ -48,7 +48,6 @@ export class AuthService {
       },
       error: (err) => {
         console.error('Logout failed', err);
-        // Optionally handle the error
         this.isAuthenticatedSubject.next(false);
       }
     });

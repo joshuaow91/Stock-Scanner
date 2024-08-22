@@ -1,71 +1,78 @@
+<section class="max-w-7xl w-full mx-auto space-y-4 relative  mb-6 p-6 text-gray-300">
 
-<section class="max-w-7xl w-full mx-auto space-y-4 relative  p-4 text-gray-300">
+  <div class="flex flex-col md:flex-row gap-4">
+    <div class="flex-1 p-8 bg-white/5 rounded-2xl ring-1 ring-white/10 max-w-xs">
+      <h2 class="text-2xl text-teal-400">What Is It?</h2>
+      <p class="mt-2 text-sm font-normal text-indigo-200">
+        The STRAT Scanner is a powerful tool designed to help traders quickly identify potential trading setups based on the STRAT methodology. It provides insights into different timeframes and scenarios, making it easier for traders to make informed decisions.
+      </p>
+    </div>
 
-<table class="table w-full text-sm text-left rtl:text-right mx-4 ">
-  <caption class="py-5 text-left rtl:text-right text-zinc-50">
-    <h2 class="text-xl text-teal-400">How Does It Work?</h2>
-    <p class="mt-1 text-sm font-normal mb-4 text-indigo-200">
-      The STRAT Scanner is a powerful tool designed to help traders quickly identify potential trading setups based on the STRAT methodology. It provides insights into different timeframes and scenarios, making it easier for traders to make informed decisions.
-    </p>
+    <div class="flex-1 flex flex-col gap-4">
+      <div class="p-4 bg-white/5 ring-1 ring-white/10 rounded-2xl">
+        <h2 class="text-2xl text-teal-400 text-center">What Are The Strat Scenarios?</h2>
+      </div>
 
-    <h2 class="mt-1 text-xl font-normal mb-4 text-teal-300">
-      How to Use:
-    </h2>
-    <ul class="mt-1 text-sm font-normal mb-4 text-zinc-100 list-disc pl-5 space-y-3">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1 text-sm">
+      <div class="p-6 bg-white/5 rounded-2xl ring-1 ring-white/10">
+        <strong class="text-teal-400">Inside Bar (1)</strong>
+        <p class="mt-1 text-indigo-200">The Inside Bar (1) scenario occurs when the current bar's price range is completely within the previous bar's range. This scenario indicates consolidation and potential breakout in either direction.</p>
+      </div>
+      <div class="p-6 bg-white/5 rounded-2xl ring-1 ring-white/10">
+        <strong class="text-teal-400">Directional Bar (2)</strong>
+        <p class="mt-1 text-indigo-200">The Directional Bar (2) scenario occurs when the current bar breaks either the high or low of the previous bar. This setup suggests continuation in the direction of the breakout.</p>
+      </div>
+      <div class="p-6 bg-white/5 rounded-2xl ring-1 ring-white/10">
+        <strong class="text-teal-400">Outside Bar (3)</strong>
+        <p class="mt-1 text-indigo-200">The Outside Bar (3) scenario occurs when the current bar's range engulfs the previous bar, breaking both its high and low. This scenario often indicates increased volatility and potential reversal or continuation.</p>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  <div class="p-8 bg-white/5 rounded-2xl ring-1 ring-white/10">
+    <h2 class="text-2xl text-teal-300">How to Use</h2>
+    <ul class="mt-3 text-sm font-normal text-zinc-100 list-disc pl-5 space-y-2">
       <li><strong class="text-blue-400">Select a Timeframe:</strong> Use the buttons at the top <span class="text-teal-300">(5, 15, 30, 60, D)</span> to select the timeframe you want to analyze. The scanner will update the data accordingly.</li>
       <li><strong class="text-blue-400">Analyze the Scenarios:</strong> The table below displays stock symbols along with their STRAT scenarios for the selected timeframe. The columns <span class="text-teal-300">C1, C2,</span> and <span class="text-teal-300">CC</span> represent the three most recent scenarios, helping you identify trends and patterns.</li>
       <li><strong class="text-blue-400">Review the Triggers and Targets:</strong> The scanner shows the current price along with the triggers and targets for both <span class="text-green-400">bullish</span> and <span class="text-red-400">bearish</span> scenarios. These values indicate potential entry and exit points based on the STRAT setup.</li>
     </ul>
+  </div>
 
-    <h2 class="mt-1 text-xl font-normal mb-2 mt-8 text-teal-300">
-      What are "The Strat" Scenarios?
-    </h2>
-    <div class="flex justify-between gap-4 pb-8 text-center">
-      <div class="flex-1 p-4 bg-zinc-800 rounded-2xl">
-        <strong class="text-teal-400">Inside Bar (1)</strong>
-        <p class="text-indigo-200">The Inside Bar (1) scenario occurs when the current bar's price range is completely within the previous bar's range. This scenario indicates consolidation and potential breakout in either direction.</p>
-      </div>
-
-      <div class="flex-1 p-4 bg-zinc-800 rounded-2xl">
-        <strong class="text-teal-400">Directional Bar (2)</strong>
-        <p class="text-indigo-200">The Directional Bar (2) scenario occurs when the current bar breaks either the high or low of the previous bar. This setup suggests continuation in the direction of the breakout.</p>
-      </div>
-
-      <div class="flex-1 p-4 bg-zinc-800 rounded-2xl">
-        <strong class="text-teal-400">Outside Bar (3)</strong>
-        <p class="text-indigo-200">The Outside Bar (3) scenario occurs when the current bar's range engulfs the previous bar, breaking both its high and low. This scenario often indicates increased volatility and potential reversal or continuation.</p>
-      </div>
-    </div>
-
+<section class="bg-white/5 rounded-2xl ring-1 ring-white/10 p-6">
+  <div class="mb-6">
     <app-timeframe-buttons [activeTimeframe]="defaultTimeframe" (selectedTimeframe)="onTimeframeSelected($event)"></app-timeframe-buttons>
+  </div>
 
-  </caption>
 
-
-  <thead class=" text-gray-300 uppercase">
-  <th>Symbol</th>
-  <th scope="col" class="py-2">C1</th>
-  <th scope="col" class="py-2">C2</th>
-  <th scope="col" class="py-2">CC</th>
-  <th scope="col" class="py-2">Current Price</th>
-  <th scope="col" class="py-2 text-green-500">Trigger (Bullish)</th>
-  <th scope="col" class="py-2 text-green-500">Target (Bullish)</th>
-  <th scope="col" class="py-2 text-red-500">Trigger (Bearish)</th>
-  <th scope="col" class="py-2 text-red-500">Target (Bearish)</th>
-  </thead>
-  <tbody>
-  <tr *ngFor="let stock of data" class="border-b border-gray-800 h-8">
-    <th scope="row" class="">{{ stock.stockSymbol }}</th>
-    <td>{{ stock.c1 | scenarioTransform }}</td>
-    <td>{{ stock.c2 | scenarioTransform }}</td>
-    <td>{{ stock.cc | scenarioTransform }}</td>
-    <td>Current Price</td>
-    <td>{{ stock.triggerPriceUp }}</td>
-    <td>{{ stock.targetPriceUp }}</td>
-    <td>{{ stock.triggerPriceDown }}</td>
-    <td>{{ stock.targetPriceDown }}</td>
-  </tr>
-  </tbody>
-</table>
-
+  <table class="table w-full text-sm text-left rtl:text-right ">
+    <thead class="text-gray-300 uppercase">
+    <tr>
+      <th>Symbol</th>
+      <th scope="col" class="py-2">C1</th>
+      <th scope="col" class="py-2">C2</th>
+      <th scope="col" class="py-2">CC</th>
+      <th scope="col" class="py-2">Current Price</th>
+      <th scope="col" class="py-2 text-green-500">Trigger (Bullish)</th>
+      <th scope="col" class="py-2 text-green-500">Target (Bullish)</th>
+      <th scope="col" class="py-2 text-red-500">Trigger (Bearish)</th>
+      <th scope="col" class="py-2 text-red-500">Target (Bearish)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let stock of data" class="border-b border-gray-800 h-8 last:border-b-0">
+      <th scope="row">{{ stock.stockSymbol }}</th>
+      <td>{{ stock.c1 | scenarioTransform }}</td>
+      <td>{{ stock.c2 | scenarioTransform }}</td>
+      <td>{{ stock.cc | scenarioTransform }}</td>
+      <td>Current Price</td>
+      <td>{{ stock.triggerPriceUp }}</td>
+      <td>{{ stock.targetPriceUp }}</td>
+      <td>{{ stock.triggerPriceDown }}</td>
+      <td>{{ stock.targetPriceDown }}</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
 </section>

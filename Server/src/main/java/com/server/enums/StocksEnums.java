@@ -6,7 +6,7 @@ public enum StocksEnums {
     AMZN("Amazon.com, Inc."),
     GOOGL("Alphabet Inc. (Class A)"),
     GOOG("Alphabet Inc. (Class C)"),
-    FB("Facebook, Inc."),
+    META("Facebook, Inc."),
     TSLA("Tesla, Inc."),
     BRK_B("Berkshire Hathaway Inc. (Class B)"),
     JNJ("Johnson & Johnson"),
