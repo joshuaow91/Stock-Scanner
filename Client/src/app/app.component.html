@@ -1,12 +1,31 @@
 <header class="flex justify-center items-center py-8 max-w-7xl mx-auto">
+
   <section class="flex w-full mx-8 gap-4 items-center justify-between">
+
     <h1 class="text-3xl font-bold tracking-tight text-zinc-50">#TheSTRAT Stock Scanner</h1>
-    <div class="flex items-center gap-4">
-      <app-modal></app-modal>
-      <app-modal></app-modal>
+
+    <div class="flex items-center gap-2">
+      <ng-container *ngIf="!isAuthenticated; else loggedIn">
+        <app-button text="Login" buttonType="primary" (click)="loginModal.toggleModal()"></app-button>
+        <app-modal #loginModal [title]="'Login'">
+          <app-login (closeModal)="loginModal.toggleModal()"></app-login>
+        </app-modal>
+
+        <app-button text="Register" buttonType="primary" (click)="registerModal.toggleModal()"></app-button>
+        <app-modal #registerModal [title]="'Register'">
+          <app-registration (closeModal)="registerModal.toggleModal()"></app-registration>
+        </app-modal>
+  </ng-container>
+
+      <ng-template #loggedIn>
+        <app-button text="Logout" buttonType="primary" (click)="logout()"></app-button>
+      </ng-template>
     </div>
+
   </section>
+
 </header>
+
 <main class=" py-8 w-full max-w-7xl mx-auto ">
   <app-table></app-table>
 </main>

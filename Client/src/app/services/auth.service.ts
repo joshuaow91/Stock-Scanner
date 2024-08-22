@@ -15,14 +15,24 @@ export class AuthService {
   }
 
   private checkAuthStatus(): void {
-    this.http.get<boolean>('user/auth').subscribe({
+    this.http.get<boolean>('http://localhost:8080/user/auth').subscribe({
       next: (isAuthenticated) => this.isAuthenticatedSubject.next(isAuthenticated),
       error: () => this.isAuthenticatedSubject.next(false)
     });
   }
 
+  register(request: {username: string; email: string; password: string}): Observable<any> {
+    return this.http.post('http://localhost:8080/user', request).pipe(
+      tap(() => this.isAuthenticatedSubject.next(true)),
+      catchError((error) => {
+        console.error(error);
+        return error;
+      })
+    )
+  }
+
   login(credentials: {username: string, password: string}): Observable<any> {
-    return this.http.post('user/session', credentials).pipe(
+    return this.http.post('http://localhost:8080/user/session', credentials).pipe(
       tap(() => this.isAuthenticatedSubject.next(true)),
       catchError((error) => {
         console.error(error);
@@ -32,7 +42,7 @@ export class AuthService {
   }
 
   logout(): void {
-    this.http.delete('user/session', {}).subscribe(() => {
+    this.http.delete('http://localhost:8080/user/session', {}).subscribe(() => {
       tap(() => this.isAuthenticatedSubject.next(false))
     });
   }

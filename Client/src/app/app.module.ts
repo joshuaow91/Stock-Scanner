@@ -8,6 +8,9 @@ import { TableComponent } from './table/table.component';
 import { TimeframeButtonsComponent } from './timeframe-buttons/timeframe-buttons.component';
 import {HttpClientModule} from "@angular/common/http";
 import { ScenarioTransformPipe } from './scenario-transform.pipe';
+import { LoginComponent } from './login-form/login.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import { RegistrationFormComponent } from './registration-form/registration-form.component';
 
 @NgModule({
   declarations: [
@@ -17,10 +20,13 @@ import { ScenarioTransformPipe } from './scenario-transform.pipe';
     TableComponent,
     TimeframeButtonsComponent,
     ScenarioTransformPipe,
+    LoginComponent,
+    RegistrationFormComponent,
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
