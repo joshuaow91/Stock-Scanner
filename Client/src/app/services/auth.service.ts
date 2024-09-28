@@ -31,7 +31,7 @@ export class AuthService {
   }
 
   login(credentials: {username: string, password: string}): Observable<any> {
-    return this.http.post('http://localhost:8080/user/session', credentials, { withCredentials: true }).pipe(
+    return this.http.post('http://localhost:8080/user/session', credentials, ).pipe(
       tap(() => this.isAuthenticatedSubject.next(true)),
       catchError((error) => {
         console.error(error);
